@@ -1,11 +1,14 @@
 <script setup>
 import Header from "@/components/Header.vue";
 import Section from "@/components/Section.vue";
-import Card from "@/components/Card.vue"
+import Card from "@/components/UtilsComponnet/Card.vue"
 import PieChart from "@/components/chats/PieChart.vue";
 import TimeCountDown from "@/components/TimeCountDown.vue";
 import BarChart from "@/components/chats/BarChart.vue";
 import LineChart from "@/components/chats/LineChart.vue";
+import {onMounted} from "vue";
+import {debounce} from "@/Utils/debounce.js";
+import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
 
 const config = {
   reportedNumToday: 311,//已注册人数
@@ -16,6 +19,19 @@ const config = {
   numBedRest: 111,//宿舍床位剩余
   numBedUsing: 3145 - 111,//宿舍床位使用
 }
+
+//监听窗口变化更改字体大小，用于Rem布局
+const baseFont = 10;//基准字体大小
+onMounted(() => {
+  window.addEventListener('resize', () => {
+    debounce(() => {
+      const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      document.documentElement.style.fontStyle = Math.round(baseFont * scale) + 'px'
+      //console.log(Math.round(baseFont * scale) + 'px')
+    }, 100, 'font-changer')
+  })
+})
+
 </script>
 
 <template>
@@ -137,7 +153,7 @@ const config = {
 .part3 {
   display: flex;
   flex-direction: column;
-  margin:10px
+  margin: 10px
 }
 
 .text-div {

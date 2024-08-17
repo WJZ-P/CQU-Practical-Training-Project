@@ -1,12 +1,15 @@
 <script setup>
 import DateTime from "@/components/DateTime.vue";
+import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
 </script>
 
 <template>
   <div class="header">
-    <div class="logo">
-      <img src="https://my.cqu.edu.cn/workspace/static/img/logo-workspace.1d5ca1b8.png" alt="重大校徽">
-    </div>
+    <ResponsiveEl :min-width=1200>
+      <div class="logo">
+        <img src="https://my.cqu.edu.cn/workspace/static/img/logo-workspace.1d5ca1b8.png" alt="重大校徽">
+      </div>
+    </ResponsiveEl>
     <p style="color: white;align-content: center;align-self: center">重庆大学新生报到可视化平台</p>
     <DateTime class="date-time-component"/>
   </div>
@@ -35,24 +38,25 @@ import DateTime from "@/components/DateTime.vue";
   }
 }
 
-p{
-    color: white;
-    align-content: center;
-    justify-self: center;
-  font-size: 28px;
+p {
+  color: white;
+  align-content: center;
+  justify-self: center;
+  font-size: 30px;
 }
 
 .date-time-component {
-    padding-right: 80px;
-    align-content: center;
+  padding-right: 80px;
+  align-content: center;
 }
 
 .logo {
-    height: 60px;
-    line-height: 10px;
-    align-content: center;
+  height: 60px;
+  line-height: 10px;
+  align-content: center;
   width: 300px;
-  img{
+
+  img {
     height: 80%;
   }
 }

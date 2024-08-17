@@ -1,15 +1,16 @@
-let isSetting = false;
-let setTimeoutObj = null;
+const taskList = {};//任务列表
+export function debounce(func, wait = 100, key = '') {
+    try {
+        //之前已经设置过了
+        if (taskList[key]) {clearTimeout(taskList[key]);}//清除之前的那个渲染进程
 
-export function debounce(func, wait) {
-    try{
-    if (isSetting)//之前已经设置过了
-    {
-        clearTimeout(setTimeoutObj);//清除之前的那个渲染进程
-        setTimeoutObj = setTimeout(() => {
+        //设置新的渲染进程
+        taskList[key] = setTimeout(() => {
             func();
-            isSetting = false;
+            delete taskList.key;//清除任务列表中已经执行完的任务
         }, wait);
-    } else setTimeoutObj = setTimeout(() => {func()})}
-    catch(e){console.log(e)}
+
+    } catch (e) {
+        console.log(e)
+    }
 }

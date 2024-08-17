@@ -5,7 +5,7 @@ import * as echarts from 'echarts';
 import {debounce} from "@/Utils/debounce.js";
 
 let chart = undefined
-let zoomRatio=0.9
+let zoomRatio = 0.9
 
 function initChart() {
   chart = echarts.init(document.getElementById('line-chart'));
@@ -85,31 +85,27 @@ function initChart() {
 }
 
 
-
-
 let windowWidth = ref(Math.round(window.innerWidth * zoomRatio) + 'px')
 let windowHeight = ref('1080px')
 
-window.addEventListener('resize', function () {
+//重新渲染条形统计图
+function resizeChart() {
+  debounce(chart.resize, 100, 'line-chart')
+}
+
+const listener = () => {
   windowWidth.value = Math.round(window.innerWidth * zoomRatio) + 'px';
   windowHeight.value = window.innerHeight + 'px'
   resizeChart()//重新渲染条形统计图
-})
-
-
-//重新渲染条形统计图
-function resizeChart() {
-  debounce(chart.resize, 100)
 }
-
-
 onMounted(() => {
   initChart();
+  window.addEventListener('resize', listener)
 })
 
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', resizeChart);
+  window.removeEventListener('resize', listener);
 })
 
 </script>

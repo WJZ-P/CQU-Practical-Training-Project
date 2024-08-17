@@ -5,7 +5,7 @@ import * as echarts from 'echarts';
 import {debounce} from "@/Utils/debounce.js";
 
 let chart = undefined
-let zoomRatio=0.4
+let zoomRatio = 0.4
 
 function initChart() {
   chart = echarts.init(document.getElementById('pie-chart'));
@@ -60,28 +60,27 @@ function initChart() {
 
 
 let windowWidth = ref(Math.round(window.innerWidth * zoomRatio) + 'px')
-let windowHeight = ref('1080px')
-
-window.addEventListener('resize', function () {
-  windowWidth.value = Math.round(window.innerWidth * zoomRatio) + 'px';
-  windowHeight.value = window.innerHeight + 'px'
-  resizeChart()//重新渲染饼图
-})
+let windowHeight = ref('1080px')//高度不需要自适应，由css决定，此处无用
 
 
 //重新渲染饼图
 function resizeChart() {
-  debounce(chart.resize, 100)
+  debounce(chart.resize, 100, 'pie-chart')
 }
 
-
+const listener = () => {
+  windowWidth.value = Math.round(window.innerWidth * zoomRatio) + 'px';
+  windowHeight.value = window.innerHeight + 'px'
+  resizeChart()//重新渲染饼图
+}
 onMounted(() => {
   initChart();
+  window.addEventListener('resize', listener)
 })
 
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', resizeChart);
+  window.removeEventListener('resize', listener);
 })
 
 </script>

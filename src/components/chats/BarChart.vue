@@ -5,7 +5,7 @@ import * as echarts from 'echarts';
 import {debounce} from "@/Utils/debounce.js";
 
 let chart = undefined
-let zoomRatio=0.4
+let zoomRatio = 0.4
 
 function initChart() {
   chart = echarts.init(document.getElementById('bar-chart'));
@@ -30,7 +30,7 @@ function initChart() {
       }
     },
     legend: {
-      data: ['入住人数','剩余床位'],
+      data: ['入住人数', '剩余床位'],
       textStyle: {
         color: '#ffffff',
         fontSize: 18
@@ -57,11 +57,11 @@ function initChart() {
           color: '#87d3ff'
         },
         label: {
-              show: true,
-              position: 'inside',
-              color: '#fff',
-              fontSize: 15
-            }
+          show: true,
+          position: 'inside',
+          color: '#fff',
+          fontSize: 15
+        }
       },
       {
         name: '剩余床位',
@@ -72,11 +72,11 @@ function initChart() {
           color: '#049aee' // 设置利润条形颜色
         },
         label: {
-              show: true,
-              position: 'inside',
-              color: '#fff',
-              fontSize: 15
-            }
+          show: true,
+          position: 'inside',
+          color: '#fff',
+          fontSize: 15
+        }
       }
     ]
   };
@@ -88,26 +88,26 @@ function initChart() {
 let windowWidth = ref(Math.round(window.innerWidth * zoomRatio) + 'px')
 let windowHeight = ref('1080px')
 
-window.addEventListener('resize', function () {
-  windowWidth.value = Math.round(window.innerWidth * zoomRatio) + 'px';
-  windowHeight.value = window.innerHeight + 'px'
-  resizeChart()//重新渲染条形统计图
-})
+
 
 
 //重新渲染条形统计图
 function resizeChart() {
-  debounce(chart.resize, 100)
+  debounce(chart.resize, 100, 'bar-chart')
 }
 
-
+const listener = () => {
+  windowWidth.value = Math.round(window.innerWidth * zoomRatio) + 'px';
+  windowHeight.value = window.innerHeight + 'px'
+  resizeChart()//重新渲染条形统计图
+}
 onMounted(() => {
   initChart();
+  window.addEventListener('resize', listener)
 })
 
-
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', resizeChart);
+  window.removeEventListener('resize', listener);
 })
 
 </script>
@@ -135,6 +135,6 @@ onBeforeUnmount(() => {
   display: flex;
   align-content: center;
   justify-content: center;
-  padding: 15px 0 0 0 ;
+  padding: 15px 0 0 0;
 }
 </style>

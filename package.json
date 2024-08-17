@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vue/babel-plugin-jsx": "^1.2.2",
+    "echarts": "^5.5.1",
     "vue": "^3.4.29"
   },
   "devDependencies": {

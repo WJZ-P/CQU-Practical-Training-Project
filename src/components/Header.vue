@@ -16,7 +16,7 @@ import DateTime from "@/components/DateTime.vue";
 <style scoped>
 .header {
   height: 60px;
-  width: 98%;
+
   background-color: #0052a8;
   border-radius: 10px;
   transition: 0.3s ease-in-out;
@@ -25,11 +25,11 @@ import DateTime from "@/components/DateTime.vue";
   justify-content: space-between;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
-  margin: 10px 5px 10px 5px;
+  margin: 10px 5px 5px 5px;
   padding: 0 10px;
 
   &:hover {
-    background-color: #4087d2;
+    background-color: #004793;
     scale: 1.01;
     text-shadow: 0 0 10px #383636;
   }

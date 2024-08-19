@@ -1,4 +1,4 @@
-const taskList = {};//任务列表
+const taskList = {};//任务对象
 export function debounce(func, wait = 100, key = '') {
     try {
         //之前已经设置过了
@@ -9,7 +9,6 @@ export function debounce(func, wait = 100, key = '') {
             func();
             delete taskList.key;//清除任务列表中已经执行完的任务
         }, wait);
-
     } catch (e) {
         console.log(e)
     }

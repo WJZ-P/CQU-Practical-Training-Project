@@ -26,9 +26,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <!--  只有当showElement为true才显示-->
-  <slot v-if="showElement"></slot>
+  <transition name="slide">
+    <!--  只有当showElement为true才显示-->
+    <slot v-if="showElement"></slot>
+  </transition>
 </template>
 
 <style scoped>
+.slide-enter-active, .slide-leave-active {
+  transition: transform 0.2s;
+}
+.slide-enter, .slide-leave-to /* .slide-leave-active in <2.1.8 */ {
+  transform: translateX(-100%);
+}
 </style>

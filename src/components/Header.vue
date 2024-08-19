@@ -1,11 +1,11 @@
 <script setup>
-import DateTime from "@/components/DateTime.vue";
+import DateTime from "@/components/UtilsComponnet/DateTime.vue";
 import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
 </script>
 
 <template>
   <div class="header">
-    <ResponsiveEl :min-width=1200>
+    <ResponsiveEl :min-width=1300>
       <div class="logo">
         <img src="https://my.cqu.edu.cn/workspace/static/img/logo-workspace.1d5ca1b8.png" alt="重大校徽">
       </div>
@@ -22,7 +22,7 @@ import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
 
   background-color: #0052a8;
   border-radius: 10px;
-  transition: 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   align-content: center;
   align-items: center;
   justify-content: space-between;

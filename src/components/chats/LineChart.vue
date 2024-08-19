@@ -12,16 +12,16 @@ function initChart() {
 
   const option = {
     title: {
-      text: 'New Student Registration Trend',
-      subtext: 'On-site and Online Registration',
+      text: '新生报道人数趋势图',
+      subtext: '线上注册和线下注册',
       left: 'center',
       textStyle: {
-        color: '#333',
-        fontSize: 18
+        color: '#ffffff',
+        fontSize: 30
       },
       subtextStyle: {
-        color: '#666',
-        fontSize: 14
+        color: '#ffffff',
+        fontSize: 15
       }
     },
     tooltip: {
@@ -29,52 +29,56 @@ function initChart() {
       axisPointer: {
         type: 'cross',
         label: {
-          backgroundColor: '#6a7985'
+          backgroundColor: '#ffffff'
         }
       }
     },
     legend: {
-      data: ['On-site Registration', 'Online Registration'],
-      left: 'right'
+      data: ['线下注册人数', '线上注册人数'],
+      left: 'right',
+      textStyle: {
+        color: '#ffffff', // 设置图例的颜色为红色
+        font: 30 // 设置图例字体大小
+      }
     },
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['2022-05-29', '2022-05-30', '2022-05-31', '2022-06-01', '2022-06-02', '2022-06-03'],
+      data: ['2024-08-09', '2024-08-10', '2024-08-11', '2024-08-12', '2024-08-13', '2024-08-14'],
       axisLabel: {
-        color: '#333'
+        color: '#ffffff'
       }
     },
     yAxis: {
       type: 'value',
       axisLabel: {
-        color: '#333'
+        color: '#ffffff'
       }
     },
     series: [
       {
-        name: 'On-site Registration',
+        name: '线下注册人数',
         type: 'line',
         stack: 'Total',
-        data: [10, 20, 30, 40, 50, 60],
+        data: [50, 41, 42, 32, 15, 60],
         itemStyle: {
           color: '#409EFF' // 设置现场报名折线颜色
         },
         areaStyle: {
-          color: '#409EFF',
+          color: '#3eb0e3',
           opacity: 0.3
         }
       },
       {
-        name: 'Online Registration',
+        name: '线上注册人数',
         type: 'line',
         stack: 'Total',
         data: [15, 25, 35, 45, 55, 65],
         itemStyle: {
-          color: '#67C23A' // 设置线上报名折线颜色
+          color: '#1fd8e8' // 设置线上报名折线颜色
         },
         areaStyle: {
-          color: '#67C23A',
+          color: '#2ee3dc',
           opacity: 0.3
         }
       }

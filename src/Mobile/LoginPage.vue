@@ -1,7 +1,7 @@
 <script setup>
-import Section from "@/components/Section.vue";
+import Section from "@/components/UtilsComponnet/Section.vue";
 import "animate.css"
-import Login from "@/Mobile/Components/Login.vue";
+import Login from "@/Mobile/Components/APPLogin.vue";
 
 </script>
 

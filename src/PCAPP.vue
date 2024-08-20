@@ -1,6 +1,6 @@
 <script setup>
 import Header from "@/components/Header.vue";
-import Section from "@/components/Section.vue";
+import Section from "@/components/UtilsComponnet/Section.vue";
 import Card from "@/components/UtilsComponnet/Card.vue"
 import PieChart from "@/components/chats/PieChart.vue";
 import TimeCountDown from "@/components/UtilsComponnet/TimeCountDown.vue";

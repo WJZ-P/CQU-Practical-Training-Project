@@ -4,7 +4,7 @@
 
 
 
-import Section from "@/components/Section.vue";
+import Section from "@/components/UtilsComponnet/Section.vue";
 </script>
 
 <template>

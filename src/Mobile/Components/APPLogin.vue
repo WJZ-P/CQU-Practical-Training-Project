@@ -1,5 +1,5 @@
 <script setup>
-import Section from "@/components/Section.vue";
+import Section from "@/components/UtilsComponnet/Section.vue";
 import {ref} from "vue";
 import {Avatar, Lock} from "@element-plus/icons-vue";
 import {useRouter} from "vue-router";

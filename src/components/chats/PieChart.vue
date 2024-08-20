@@ -4,6 +4,7 @@ import {onBeforeUnmount, onMounted, ref} from "vue";
 import * as echarts from 'echarts';
 import {debounce} from "@/Utils/debounce.js";
 
+
 let chart = undefined
 let zoomRatio = 0.4
 
@@ -73,8 +74,9 @@ const listener = () => {
   windowHeight.value = window.innerHeight + 'px'
   resizeChart()//重新渲染饼图
 }
+
 onMounted(() => {
-  initChart();
+  initChart();//此处调用后会渲染饼图
   window.addEventListener('resize', listener)
 })
 

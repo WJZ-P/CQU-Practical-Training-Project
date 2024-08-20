@@ -13,3 +13,4 @@ export function debounce(func, wait = 100, key = '') {
         console.log(e)
     }
 }
+

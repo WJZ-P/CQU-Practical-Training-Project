@@ -30,11 +30,3 @@ var desEncrypt = function (key, content) {
   });
   return encString.toString();
 };
-
-//这个登录key是base64格式的
-const loginCrypto="hV03xNMEAbA="
-let password='123'
-let encryptedPassword=desEncrypt(loginCrypto,password)
-console.log(encryptedPassword) //输出：密码
-
-console.log(desDecrypt(loginCrypto,encryptedPassword)) //输出：123

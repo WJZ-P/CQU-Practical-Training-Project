@@ -1,5 +1,5 @@
 <script setup>
-import Header from "@/components/Header.vue";
+import Header from "@/components/TeacherHeader.vue";
 import Section from "@/components/UtilsComponnet/Section.vue";
 import Card from "@/components/UtilsComponnet/Card.vue"
 import PieChart from "@/components/chats/PieChart.vue";
@@ -36,7 +36,7 @@ onMounted(() => {
 <template>
   <!--APP组件-->
   <div class="app">
-    <Header/>
+    <Header title="重庆大学新生报到可视化系统"/>
     <!--    第一部分-->
     <div style="display: flex">
       <!--        左半边-->

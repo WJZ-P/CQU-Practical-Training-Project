@@ -1,6 +1,8 @@
 <script setup>
 import DateTime from "@/components/UtilsComponnet/DateTime.vue";
 import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
+
+const props=defineProps({title:String})
 </script>
 
 <template>
@@ -10,7 +12,7 @@ import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
         <img src="https://my.cqu.edu.cn/workspace/static/img/logo-workspace.1d5ca1b8.png" alt="重大校徽">
       </div>
     </ResponsiveEl>
-    <p style="color: white;align-content: center;align-self: center">重庆大学新生报到可视化平台</p>
+    <p style="color: white;align-content: center;align-self: center">{{props.title}}</p>
     <DateTime class="date-time-component"/>
   </div>
 </template>

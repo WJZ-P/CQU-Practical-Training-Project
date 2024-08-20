@@ -1,10 +1,23 @@
 <script setup>
 import Section from "@/components/UtilsComponnet/Section.vue";
-import PCAPP from "@/PCAPP.vue";
 import {useRouter} from "vue-router";
-import PCLogin from "@/components/Login/PCLogin.vue";
+import {Avatar, Lock} from "@element-plus/icons-vue";
+import {ref} from "vue";
 
 const router = useRouter()
+
+const IDCode = ref('')
+const passWord = ref('')
+
+
+//登录验证
+function checkin(){
+  if(IDCode.value==='1' && passWord.value ==="1")
+  {
+    router.
+  }
+}
+
 </script>
 
 <template>
@@ -36,10 +49,26 @@ const router = useRouter()
           </div>
         </Section>
 
-<!--        右侧的登陆界面-->
+        <!--        右侧的登陆界面-->
         <Section class="login-section-right">
-          <h3 style="text-align: left;color: #004791;width: 100%">统一身份认证</h3>
-          <PCLogin/>
+          <h2 style="text-align: left;color: #004791;width: 100%">统一身份认证</h2>
+          <div class="input-div-wrapper">
+            <div class="input-div">
+              <el-icon size="40px">
+                <Avatar/>
+              </el-icon>
+              <el-input class="input" v-model="IDCode" placeholder="统一身份认证号" clearable></el-input>
+            </div>
+            <div class="input-div">
+              <el-icon size="40px">
+                <Lock/>
+              </el-icon>
+              <el-input class="input" v-model="passWord" placeholder="请输入密码" clearable type="password"></el-input>
+            </div>
+            <div style="width: 100%;display: flex;justify-content: center">
+              <button class="custom-button" style="width: 55%;height: 60%">登录</button>
+            </div>
+          </div>
         </Section>
       </div>
     </Section>
@@ -48,11 +77,11 @@ const router = useRouter()
   <Section>
     <div class="button-div">
       <RouterLink to="/PCAPP">
-        <button>点我跳转到网页端</button>
+        <button class="custom-button">点我跳转到网页端</button>
       </RouterLink>
 
       <RouterLink to="/AndroidApp">
-        <button>点我跳转到移动端</button>
+        <button class="custom-button">点我跳转到移动端</button>
       </RouterLink>
     </div>
   </Section>
@@ -71,14 +100,19 @@ const router = useRouter()
 }
 
 .logo-div {
-  width: min(300px,80%);
+  width: min(300px, 80%);
   display: flex;
-justify-content: center;
+  justify-content: center;
   align-items: center;
 }
+
 .logo {
   width: 50%;
   margin-bottom: 10px;
+  transition: 0.2s;
+  &:hover{
+    scale: 1.2;
+  }
 }
 
 .login-page {
@@ -120,7 +154,7 @@ justify-content: center;
 
 /*右侧的提示框 */
 .login-section-right {
-  opacity: 0.7;
+  opacity: 0.85;
   height: 60%;
   width: 60%;
   margin: 5px 5px 5px 110px;
@@ -137,7 +171,7 @@ justify-content: center;
   align-content: center;
 }
 
-button {
+.custom-button {
   width: fit-content;
   height: 100px;
   font-size: 30px;
@@ -155,6 +189,35 @@ button {
     box-shadow: 0 0 10px #1a538a;
     animation: doudong 0.3s;
   }
+}
+
+.input-div-wrapper {
+  display: flex;
+  width: 100%;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-top: 10%;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+.input-div {
+  width: min(450px, 80%);
+  height: min(60px, 40%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border: none !important;
+  outline: none !important;
 }
 
 @keyframes doudong {

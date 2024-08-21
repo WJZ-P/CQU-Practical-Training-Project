@@ -3,6 +3,7 @@ import Section from "@/components/UtilsComponnet/Section.vue";
 import {useRouter} from "vue-router";
 import {Avatar, Lock} from "@element-plus/icons-vue";
 import {ref} from "vue";
+import {ElMessage} from "element-plus";
 
 const router = useRouter()
 
@@ -17,8 +18,21 @@ const options = [
 
 //登录验证
 function checkin() {
-  if (IDCode.value === '1' && passWord.value === "1") {
-    router.push("/PCAPP")
+  if (selectValue.value === '') return ElMessage.error('请选择老师端或学生端！')
+
+  if (IDCode.value === '1' && passWord.value === "1") {//账号密码正确
+    ElMessage.success('跳转成功！')
+    //跳转到学生端
+    if (selectValue.value === '1') {
+
+    }
+    //跳转到老师端
+    if (selectValue.value === '2') {
+      router.push('/TeacherMenu')
+    }
+  } else {
+    ElMessage.error('账号或密码错误！请重新输入！')
+    passWord.value = ''//密码改为空
   }
 }
 
@@ -30,7 +44,7 @@ function checkin() {
     <!--  编写跳转-->
     <Section class="login-page">
       <div class="login-div">
-        <Section class="login-section-left">
+        <Section class="login-section-left animate__animated animate__backInLeft">
           <h1 style="text-align: center">重庆大学统一登录平台</h1>
           <br>
           <div class="logo-div">
@@ -42,11 +56,11 @@ function checkin() {
           <div class="left-content">
             <h4>1、欢迎来到重庆大学统一登录平台！</h4>
             <br>
-            <h4>2、用户名为统一身份认证号或者身份证件号。</h4>
+            <h4>2、新用户请点击右侧立即注册以注册账号。</h4>
             <br>
             <h4>3、忘记账号，请点击“找回密码”。</h4>
             <br>
-            <h4>4、请不要向任何人透露自己的账号密码！</h4>
+            <h4>4、安全起见，请不要向任何人透露自己的账号密码！</h4>
             <br>
             <h4>5、祝您使用愉快！</h4>
             <br>
@@ -54,17 +68,17 @@ function checkin() {
         </Section>
 
         <!--        右侧的登陆界面-->
-        <Section class="login-section-right">
+        <Section class="login-section-right animate__animated animate__backInRight">
           <h2 style="text-align: left;color: #004791;width: 100%">统一身份认证</h2>
           <div class="input-div-wrapper">
             <div class="input-div">
-              <el-icon size="40px">
+              <el-icon size="35px">
                 <Avatar/>
               </el-icon>
               <el-input class="input" v-model="IDCode" placeholder="统一身份认证号" clearable></el-input>
             </div>
             <div class="input-div">
-              <el-icon size="40px">
+              <el-icon size="35px">
                 <Lock/>
               </el-icon>
               <el-input class="input" v-model="passWord" placeholder="请输入密码" clearable type="password"></el-input>
@@ -73,7 +87,7 @@ function checkin() {
               <!--              下拉选择栏-->
               <el-select
                   v-model="selectValue"
-                  placeholder="请选择老师或学生"
+                  placeholder="请选择老师端或学生端"
                   size="large"
                   style="width: min(60%,400px)"
               >
@@ -87,6 +101,11 @@ function checkin() {
             </div>
             <div style="width: 100%;display: flex;justify-content: center">
               <button class="custom-button" style="width: 55%;height: 60%;" @click="checkin">登录</button>
+            </div>
+            <div style="width: 100%;display: flex;justify-content: space-between;font-size: 18px;">
+              <RouterLink to="/Register" class="routelink">立即注册</RouterLink>
+              <RouterLink to="/ForgetPassword" class="routelink">找回密码
+              </RouterLink>
             </div>
           </div>
         </Section>
@@ -176,8 +195,7 @@ function checkin() {
 /*右侧的提示框 */
 .login-section-right {
   opacity: 0.85;
-  height: 100%;
-  width: 60%;
+  width: fit-content;
   margin: 5px 5px 5px 110px;
   display: flex;
   flex-direction: column;
@@ -229,17 +247,29 @@ function checkin() {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d9d9d9;
+  border: 0px solid #d9d9d9;
   border-radius: 5px;
   margin: 10px;
+  padding: 0;
+}
+
+.routelink {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  transition: 0.2s;
+
+  &:hover {
+    color: #2167b0;
+    scale: 1.2;
+  }
 }
 
 .input {
   width: 100%;
   height: 100%;
-  border: none !important;
-  outline: none !important;
+  margin-right: 5px;
 }
+
 
 @keyframes doudong {
   0% {

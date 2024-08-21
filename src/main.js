@@ -9,10 +9,12 @@ import MainMenu from "@/Mobile/MainMenu.vue";
 import MainPage from "@/Mobile/MainPage.vue";
 import SwitchMenu from "@/SwitchMenu.vue";
 import TeacherMenu from "@/TeacherMenu.vue";
+import RegisterPage from "@/RegisterPage.vue";
 
 const routes = [
     {path: '/', component: SwitchMenu},
-    {path: '/TeacherMenu', component: TeacherMenu},
+    {path: '/TeacherMenu', component: TeacherMenu},//教师端主页
+    {path: '/Register',component: RegisterPage},
     {
         path: '/AndroidApp',
         children: [

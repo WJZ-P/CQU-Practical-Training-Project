@@ -16,7 +16,7 @@ function initChart() {
       text: '学校报到情况',
       left: 'center',
       textStyle: {
-        color: '#ffffff', // 设置标题的颜色为红色
+        color: '#ffffff', // 设置标题的颜色为白色
         font: 30 // 设置标题字体大小
       }
     },
@@ -75,6 +75,7 @@ const listener = () => {
   resizeChart()//重新渲染饼图
 }
 
+//在组件渲染的时候执行OnMouted函数
 onMounted(() => {
   initChart();//此处调用后会渲染饼图
   window.addEventListener('resize', listener)

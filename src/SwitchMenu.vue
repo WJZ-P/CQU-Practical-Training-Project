@@ -9,12 +9,16 @@ const router = useRouter()
 const IDCode = ref('')
 const passWord = ref('')
 
+//选择老师端登入或是学生端登入
+const selectValue = ref('')//值为1 or 2
+const options = [
+  {label: '学生端', value: '1'},
+  {label: '老师端', value: '2'}]
 
 //登录验证
-function checkin(){
-  if(IDCode.value==='1' && passWord.value ==="1")
-  {
-    router.
+function checkin() {
+  if (IDCode.value === '1' && passWord.value === "1") {
+    router.push("/PCAPP")
   }
 }
 
@@ -66,7 +70,23 @@ function checkin(){
               <el-input class="input" v-model="passWord" placeholder="请输入密码" clearable type="password"></el-input>
             </div>
             <div style="width: 100%;display: flex;justify-content: center">
-              <button class="custom-button" style="width: 55%;height: 60%">登录</button>
+              <!--              下拉选择栏-->
+              <el-select
+                  v-model="selectValue"
+                  placeholder="请选择老师或学生"
+                  size="large"
+                  style="width: min(60%,400px)"
+              >
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div style="width: 100%;display: flex;justify-content: center">
+              <button class="custom-button" style="width: 55%;height: 60%;" @click="checkin">登录</button>
             </div>
           </div>
         </Section>
@@ -76,7 +96,7 @@ function checkin(){
   </div>
   <Section>
     <div class="button-div">
-      <RouterLink to="/PCAPP">
+      <RouterLink to="/TeacherMenu">
         <button class="custom-button">点我跳转到网页端</button>
       </RouterLink>
 
@@ -110,7 +130,8 @@ function checkin(){
   width: 50%;
   margin-bottom: 10px;
   transition: 0.2s;
-  &:hover{
+
+  &:hover {
     scale: 1.2;
   }
 }
@@ -155,7 +176,7 @@ function checkin(){
 /*右侧的提示框 */
 .login-section-right {
   opacity: 0.85;
-  height: 60%;
+  height: 100%;
   width: 60%;
   margin: 5px 5px 5px 110px;
   display: flex;
@@ -204,7 +225,7 @@ function checkin(){
 
 .input-div {
   width: min(450px, 80%);
-  height: min(60px, 40%);
+  height: min(50px, 30%);
   display: flex;
   justify-content: center;
   align-items: center;

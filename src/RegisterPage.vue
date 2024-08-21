@@ -1,7 +1,9 @@
 <script setup>
 import Section from "@/components/UtilsComponnet/Section.vue";
+import {ref} from "vue";
 
-
+const IDCode = ref('')//账号
+const passWord = ref('')//密码
 </script>
 
 <template>
@@ -14,6 +16,18 @@ import Section from "@/components/UtilsComponnet/Section.vue";
           <h1 class="register-text">重大新生报道网站</h1>
           <br>
           <h2>账号注册</h2>
+          <br>
+          <div class="form-class">
+            <el-form>
+              <el-form-item label="请输入账号" label-position="top">
+                <el-input v-model="IDCode" placeholder="账号"></el-input>
+              </el-form-item>
+
+              <el-form-item label="请输入密码" label-position="top">
+                <el-input  v-model="passWord" placeholder="密码" show-password></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
         </Section>
       </div>
     </Section>
@@ -32,14 +46,14 @@ import Section from "@/components/UtilsComponnet/Section.vue";
   height: 100%;
 }
 
-.register-div{
+.register-div {
   display: flex;
   width: 50%;
   height: 50%;
   align-items: center;
 }
 
-.register-section{
+.register-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +77,6 @@ import Section from "@/components/UtilsComponnet/Section.vue";
   display: flex;
   justify-content: center;
   align-content: center;
-
 }
 
 .left-content {

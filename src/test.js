@@ -30,10 +30,10 @@ var desEncrypt = function (key, content) {
   });
   return encString.toString();
 };
-
+//我的token是eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQ0MzAxMDcsInVzZXJfbmFtZSI6IjMwMDQ0MTM4IiwiYXV0aG9yaXRpZXMiOlsi5a2m55SfJktSX1RUIl0sImp0aSI6ImJhOTdiYjQ2LWU5OTEtNDc4Yy1iYWViLTNkNjVjYjRjMDY0NyIsImNsaWVudF9pZCI6InBlcnNvbmFsLXByb2QiLCJzY29wZSI6WyJhbGwiXX0.oyfeDlroBZNQpCo6nqjUIky08QwnTtAegbniAYUDgU4
 //这个登录key是base64格式的
 const loginCrypto="hV03xNMEAbA="
-let password='123'
+let password='wjz3165210'
 let encryptedPassword=desEncrypt(loginCrypto,password)
 console.log(encryptedPassword) //输出：密码
 

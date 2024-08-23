@@ -22,6 +22,7 @@ function checkin() {
   if (selectValue.value === '') return ElMessage.error('请选择老师端或学生端！')
 
   if (IDCode.value === '1' && passWord.value === "1") {//账号密码正确
+    router.push('/PCMenu')
     ElMessage.success('跳转成功！')
     //跳转到学生端
     if (selectValue.value === '1') {
@@ -106,7 +107,7 @@ function checkin() {
             </div>
             <div style="width: 100%;display: flex;justify-content: space-between;font-size: 18px;">
               <RouterLink to="/Register" class="routelink">立即注册</RouterLink>
-              <RouterLink to="/ForgetPassword" class="routelink">找回密码
+              <RouterLink to="/FindPassword" class="routelink">找回密码
               </RouterLink>
             </div>
           </div>

@@ -8,13 +8,11 @@ const backEndCaptcha = ref('')//后端返回的验证码
 
 const formData = reactive({
   emailAddress: '',
-  userName: '',
-  passWord: '',
-  reConfirmPwd: '',
+  newPwd:'',
   captcha: '',
 })
 
-const formRef=ref(null)
+const formRef = ref(null)
 
 
 const rules = {
@@ -27,43 +25,26 @@ const rules = {
     message: '请输入正确的邮箱格式',
     trigger: 'blur'
   }],
-  userName: [{
-    required: true,
-    message: '请输入昵称',
-    trigger: 'blur'
-  }],
-  passWord: [{
-    required: true,
-    message: '请输入密码',
-    trigger: 'blur'
-  }],
-  reConfirmPwd: [{
-    required: true,
-    message: '请输入确认密码',
-    trigger: 'blur'
-  }, {
-    validator: (rule, value, callback) => {
-      if (value !== formData.passWord) {
-        callback(new Error('两次密码输入不一致！'))
-      } else callback()
-    },
-    trigger: 'blur'
-  }],
   captcha: [{
     required: true,
     message: '请输入验证码',
     trigger: 'blur'
+  }],
+  pwd:[{
+    required: true,
+    message: '请输入密码',
+    trigger: 'blur'
   }]
 }
 
+//表单提交方法
 function submitForm() {
   //表单校验
   formRef.value.validate((valid) => {
     if (valid) {//valid了说明表单校验通过
       console.log('表单校验通过！')
+      const encryptedPwd = CryptoJS.MD5(formData.newPwd).toString()
       //调用后端接口校验验证码
-
-      //backEndCaptcha.value = '1234'//假设后端返回的验证码
 
       if (formData.captcha === backEndCaptcha.value) {
         //调用后端接口注册用户,等待实现
@@ -88,13 +69,13 @@ function sendEmail() {
     <Section class="login-page">
       <div class="register-div">
         <Section class="register-section animate__animated animate__bounceIn">
-          <h1 class="register-text">重大新生报道网站</h1>
+          <h1 class="register-text">找回密码</h1>
           <br>
-          <h2>账号注册</h2>
+          <h2>请填写以下信息</h2>
           <br>
           <div class="form-class">
             <el-form :model="formData" ref="formRef" :rules="rules">
-              <el-form-item label="请输入邮箱" label-position="top" prop="emailAddress">
+              <el-form-item label="请输入注册时填写的邮箱" label-position="top" prop="emailAddress">
                 <el-input v-model="formData.emailAddress" placeholder="邮箱" size="large">
                   <template #prefix>
                     <el-icon size="large">
@@ -103,17 +84,8 @@ function sendEmail() {
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入昵称" label-position="top" size="large" prop="userName">
-                <el-input v-model="formData.userName" placeholder="昵称">
-                  <template #prefix>
-                    <el-icon size="large">
-                      <User/>
-                    </el-icon>
-                  </template>
-                </el-input>
-              </el-form-item>
-              <el-form-item label="请输入密码" label-position="top" size="large" prop="passWord">
-                <el-input v-model="formData.passWord" placeholder="密码" show-password>
+              <el-form-item label="请输入新密码" label-position="top" size="large" prop="pwd">
+                <el-input v-model="formData.newPwd" placeholder="密码" show-password>
                   <template #prefix>
                     <el-icon size="large">
                       <Key/>
@@ -121,17 +93,6 @@ function sendEmail() {
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="再次输入以确认密码" label-position="top" size="large" prop="reConfirmPwd">
-                <el-input v-model="formData.reConfirmPwd" placeholder="确认密码" show-password>
-                  <template #prefix>
-                    <el-icon size="large">
-                      <Key/>
-                    </el-icon>
-                  </template>
-                </el-input>
-              </el-form-item>
-              <!--              输入邮箱内提供的验证码-->
-
               <el-form-item label="请输入邮箱验证码" label-position="top" size="large" prop="captcha">
                 <el-input v-model="formData.captcha" placeholder="验证码" show-password>
                   <template #prefix>
@@ -144,7 +105,6 @@ function sendEmail() {
                   </template>
                 </el-input>
               </el-form-item>
-
               <br>
               <br>
             </el-form>
@@ -153,7 +113,7 @@ function sendEmail() {
             <el-icon>
               <User/>
             </el-icon>
-            立即注册
+            点击确认
           </el-button>
         </Section>
       </div>
@@ -212,7 +172,7 @@ function sendEmail() {
 
 .login-page {
   height: 100%;
-  background-image: url("https://www.cqu.edu.cn/images/23/10/11/1ucry5xfsw/%E8%99%8E%E6%BA%AA%E5%90%AF%E5%85%B9%E4%BA%AD.jpg");
+  background-image: url("https://www.cqu.edu.cn/images/23/10/11/1ucry5xfsw/%E8%99%8E%E6%BA%AA-%E9%93%B6%E6%9D%8F%E5%A4%A7%E9%81%932.jpg");
   background-size: cover;
   background-position: left top;
   display: flex;

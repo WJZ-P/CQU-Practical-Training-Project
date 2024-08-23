@@ -2,6 +2,7 @@
 </script>
 
 <template>
+<!--  路由视图-->
   <RouterView/>
 </template>
 

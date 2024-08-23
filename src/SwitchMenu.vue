@@ -5,6 +5,7 @@ import {Avatar, Lock} from "@element-plus/icons-vue";
 import {ref} from "vue";
 import {ElMessage} from "element-plus";
 
+
 const router = useRouter()
 
 const IDCode = ref('')
@@ -44,7 +45,7 @@ function checkin() {
     <!--  编写跳转-->
     <Section class="login-page">
       <div class="login-div">
-        <Section class="login-section-left animate__animated animate__backInLeft">
+        <Section class=" animate__animated animate__backInLeft login-section-left">
           <h1 style="text-align: center">重庆大学统一登录平台</h1>
           <br>
           <div class="logo-div">
@@ -54,15 +55,15 @@ function checkin() {
           <br>
 
           <div class="left-content">
-            <h4>1、欢迎来到重庆大学统一登录平台！</h4>
+            <h3>1、欢迎来到重庆大学统一登录平台！</h3>
             <br>
-            <h4>2、新用户请点击右侧立即注册以注册账号。</h4>
+            <h3>2、新用户请点击右侧立即注册以注册账号。</h3>
             <br>
-            <h4>3、忘记账号，请点击“找回密码”。</h4>
+            <h3>3、忘记账号，请点击“找回密码”。</h3>
             <br>
-            <h4>4、安全起见，请不要向任何人透露自己的账号密码！</h4>
+            <h3>4、安全起见，请不要向任何人透露自己的账号密码！</h3>
             <br>
-            <h4>5、祝您使用愉快！</h4>
+            <h3>5、祝您使用愉快！</h3>
             <br>
           </div>
         </Section>
@@ -75,13 +76,14 @@ function checkin() {
               <el-icon size="35px">
                 <Avatar/>
               </el-icon>
-              <el-input class="input" v-model="IDCode" placeholder="统一身份认证号" clearable></el-input>
+              <el-input class="input" v-model="IDCode" placeholder="统一身份认证号" clearable size="large"></el-input>
             </div>
             <div class="input-div">
               <el-icon size="35px">
                 <Lock/>
               </el-icon>
-              <el-input class="input" v-model="passWord" placeholder="请输入密码" clearable type="password"></el-input>
+              <el-input class="input" v-model="passWord" placeholder="请输入密码" clearable type="password"
+                        size="large"></el-input>
             </div>
             <div style="width: 100%;display: flex;justify-content: center">
               <!--              下拉选择栏-->
@@ -181,7 +183,7 @@ function checkin() {
 .login-section-left {
   margin-right: 50px;
   height: fit-content;
-  opacity: 0.8;
+  opacity: 0.8 !important;
   width: 50%;
   padding: 10px;
   display: flex;
@@ -194,7 +196,7 @@ function checkin() {
 
 /*右侧的提示框 */
 .login-section-right {
-  opacity: 0.85;
+  opacity: 0.9 !important;
   width: fit-content;
   margin: 5px 5px 5px 110px;
   display: flex;

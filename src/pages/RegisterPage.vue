@@ -3,6 +3,9 @@ import Section from "@/components/UtilsComponnet/Section.vue";
 import {reactive, ref} from "vue";
 import {DocumentChecked, Key, Message, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus"
+import {useRouter} from "vue-router";
+
+const router=useRouter()
 
 const backEndCaptcha = ref('')//后端返回的验证码
 
@@ -70,6 +73,7 @@ function submitForm() {
         //axios.post('/register', formData).then(res => {
 
         ElMessage.success('注册成功！')
+        router.push('/StudentMenu')//注册成功跳转到学生主页面
       }
     }
   })

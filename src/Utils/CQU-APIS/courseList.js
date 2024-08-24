@@ -4,7 +4,7 @@ const courseList=await fetch('https://my.cqu.edu.cn/api/enrollment/enrollment/co
   headers: {
     'Accept': 'application/json, text/plain, */*',
     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQ0MzAxMDcsInVzZXJfbmFtZSI6IjMwMDQ0MTM4IiwiYXV0aG9yaXRpZXMiOlsi5a2m55SfJktSX1RUIl0sImp0aSI6ImJhOTdiYjQ2LWU5OTEtNDc4Yy1iYWViLTNkNjVjYjRjMDY0NyIsImNsaWVudF9pZCI6InBlcnNvbmFsLXByb2QiLCJzY29wZSI6WyJhbGwiXX0.oyfeDlroBZNQpCo6nqjUIky08QwnTtAegbniAYUDgU4',
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQ0ODA3NzYsInVzZXJfbmFtZSI6IjMwMDQ0MTM4IiwiYXV0aG9yaXRpZXMiOlsi5a2m55SfJktSX1RUIl0sImp0aSI6Ijk5ZjM3YzNkLWNmNzItNGIxNC1hNWI3LTZhZThhYTFlZDdhNCIsImNsaWVudF9pZCI6InBlcnNvbmFsLXByb2QiLCJzY29wZSI6WyJhbGwiXX0.GQxsT-zp0yip7bWvzv999CM00dxepUqEI4b-fEc6j0E',
     'Connection': 'keep-alive',
     'Cookie': 'SltzIpc2lElOO=60L8J6QFN7xfjeW9zXPyoYYcQ0YTErWX.HvwZTEqnLcDUhXMO2cwtZ2rGU0lYIX_1pMSFZ3xYhbqMO7PYPxP9CzA; SESSION=Yjk1Mjk5YWYtZDFlZi00MjQ4LWJlOGQtNGFjMzM5Zjk4ZTJl; SltzIpc2lElOP=0z.xH6UjX5CzcSmlw0Cj4TF6OW2AW_kZrfa6oIHzJ_ZsBSF35anCjv7hFqE9qyBSMCCyun5_FPlmvQaOPt4Wht9gXYnl0l2JJHjcpBKkpEiFgqIf6S7B4KKTNcI0j7xQqo8mA0cNCPn2tDNLmQuV9Jh3_yn6kEoGK8sV7PhLddmp.AwfRP3TUihNbAXVIk3DuRwRiKPbm5_xEojnmxXiotExKl.sI5VtShmv4xbmKjPWApuRBLV7kXR3Teng3sgpR2pe0Zkc7jHUJviLZnQQoMWMfrTmCgEwCd8YknZG1nh.Lpl3QBdd_OctgZht46LS4RcHxVWnUxJAIl6_XHU2klyGvRQWLgHL7AgvNboaRUbnhr0NgrH6pikbYXE7Jja3a',
     'Referer': 'https://my.cqu.edu.cn/enroll/CourseStuSelectionList',

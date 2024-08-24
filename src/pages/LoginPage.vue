@@ -4,11 +4,12 @@ import {useRouter} from "vue-router";
 import {Avatar, Lock} from "@element-plus/icons-vue";
 import {ref} from "vue";
 import {ElMessage} from "element-plus";
+import axios from "axios";
 
 
 const router = useRouter()
 
-const IDCode = ref('')
+const emailAddress = ref('')
 const passWord = ref('')
 
 //选择老师端登入或是学生端登入
@@ -20,13 +21,33 @@ const options = [
 //登录验证
 function checkin() {
   if (selectValue.value === '') return ElMessage.error('请选择老师端或学生端！')
+  if (emailAddress.value === '') return ElMessage.error('请输入邮箱！')
+  if (passWord.value === '') return ElMessage.error('请输入密码！')
 
-  if (IDCode.value === '1' && passWord.value === "1") {//账号密码正确
-    router.push('/PCMenu')
+  console.log('请求登录接口')
+  //下面开始请求接口做登录校验
+  try {
+    axios.post('http://127.0.0.1:8080/login', {
+      "emailAddress": emailAddress.value,
+      "passWord": passWord.value,
+    }).then((response) => {
+      console.log(response)
+      if(response.data[msg] === 'login success'){
+        ElMessage.success('登陆成功！')
+        router.push('/StudentMenu')
+      }
+    })
+  }catch (e){
+    console.log(e)
+    ElMessage.error('出现错误，请重试')
+  }
+
+  if (emailAddress.value === '1' && passWord.value === "1") {//账号密码正确
+
     ElMessage.success('跳转成功！')
     //跳转到学生端
     if (selectValue.value === '1') {
-
+      router.push('/StudentMenu')
     }
     //跳转到老师端
     if (selectValue.value === '2') {
@@ -46,8 +67,8 @@ function checkin() {
     <!--  编写跳转-->
     <Section class="login-page">
       <div class="login-div">
-        <Section class=" animate__animated animate__backInLeft login-section-left">
-          <h1 style="text-align: center">重庆大学统一登录平台</h1>
+        <Section class=" animate__animated animate__backInLeft login-section-left animate__fast">
+          <h1 style="text-align: center">重庆大学新生报道平台</h1>
           <br>
           <div class="logo-div">
             <img class="logo" src="https://sso.cqu.edu.cn/linkid/api/image/download/1650350700631phonelogo172172.png"
@@ -56,7 +77,7 @@ function checkin() {
           <br>
 
           <div class="left-content">
-            <h3>1、欢迎来到重庆大学统一登录平台！</h3>
+            <h3>1、欢迎来到重庆大学新生报道平台！</h3>
             <br>
             <h3>2、新用户请点击右侧立即注册以注册账号。</h3>
             <br>
@@ -70,14 +91,14 @@ function checkin() {
         </Section>
 
         <!--        右侧的登陆界面-->
-        <Section class="login-section-right animate__animated animate__backInRight">
-          <h2 style="text-align: left;color: #004791;width: 100%">统一身份认证</h2>
+        <Section class="login-section-right animate__animated animate__backInRight animate__fast">
+          <h2 style="text-align: left;color: #004791;width: 100%">登录</h2>
           <div class="input-div-wrapper">
             <div class="input-div">
               <el-icon size="35px">
                 <Avatar/>
               </el-icon>
-              <el-input class="input" v-model="IDCode" placeholder="统一身份认证号" clearable size="large"></el-input>
+              <el-input class="input" v-model="emailAddress" placeholder="请输入邮箱" clearable size="large"></el-input>
             </div>
             <div class="input-div">
               <el-icon size="35px">

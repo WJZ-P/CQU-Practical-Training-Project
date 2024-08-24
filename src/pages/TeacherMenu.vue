@@ -36,7 +36,7 @@ onMounted(() => {
 <template>
   <!--APP组件-->
   <div class="app">
-    <Header title="重庆大学新生报到可视化系统"/>
+    <Header title="重庆大学新生报道可视化系统"/>
     <!--    第一部分-->
     <div style="display: flex">
       <!--        左半边-->

@@ -16,6 +16,8 @@ import Accommodate from "@/students/StuChildren/Accommodate/Accommodate.vue";
 import MsgQuery from "@/students/StuChildren/MsgQuery/MsgQuery.vue";
 import CourseQuery from "@/students/StuChildren/CourseQuery/CourseQuery.vue";
 import Consult from "@/students/StuChildren/Consult/Consult.vue";
+import MobileLoginPage from "@/Mobile/MobileLoginPage.vue";
+import testPage from "@/testPage.vue";
 
 async function checkLogin() {
     //向后端发送请求查看当前用户是否登录
@@ -26,14 +28,15 @@ async function checkLogin() {
 
 const routes = [
     {path: '/', component: LoginPage},
-    {path: '/TeacherMenu', component: TeacherMenu},//教师端主页
-    {path: '/StudentMenu', component: CQU_student},//学生端主页
+    {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
+    {path: '/StudentMenu', component: CQU_student}, //学生端主页
     {path: '/Register', component: RegisterPage},   //注册页面
-    {path: '/FindPassword', component: FindPwdPage},   //找回密码页面
+    {path: '/FindPassword', component: FindPwdPage},//找回密码页面
+    {path: '/testPage', component: testPage},       //测试页面
     {
         path: '/AndroidApp',
         children: [
-            {path: '', component: LoginPage},
+            {path: '', component: MobileLoginPage},
             {path: 'students/PersonalMsg', component: PersonalMsg},
             {path: 'students/Accommodate', component: Accommodate},
             {path: 'students/MsgQuery', component: MsgQuery},

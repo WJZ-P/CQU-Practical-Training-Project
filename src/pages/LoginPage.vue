@@ -28,34 +28,32 @@ function checkin() {
   //下面开始请求接口做登录校验
   try {
     axios.post('http://127.0.0.1:8080/login', {
-      "emailAddress": emailAddress.value,
-      "passWord": passWord.value,
+      "email": emailAddress.value,
+      "password": CryptoJS.MD5(passWord.value).toString(),
     }).then((response) => {
-      console.log(response)
-      if(response.data[msg] === 'login success'){
-        ElMessage.success('登陆成功！')
-        router.push('/StudentMenu')
-      }
-    })
-  }catch (e){
+          console.log(response)
+          if (response.data?.msg === 'login success') {
+            //登录成功，现在默认跳转到学生端
+            ElMessage.success('登陆成功！')
+            router.push('/StudentMenu')
+          }
+
+          if (response.data?.msg === 'email not exist') {
+            return ElMessage.error('邮箱错误！未注册请跳转到注册页面')
+          }
+
+          if (response.data?.msg === 'password error') {
+            passWord.value = ''//密码改为空
+            return ElMessage.error('密码错误！')
+          }
+
+          return ElMessage.error('出现错误，请重试')
+        }
+    )
+  } catch
+      (e) {
     console.log(e)
     ElMessage.error('出现错误，请重试')
-  }
-
-  if (emailAddress.value === '1' && passWord.value === "1") {//账号密码正确
-
-    ElMessage.success('跳转成功！')
-    //跳转到学生端
-    if (selectValue.value === '1') {
-      router.push('/StudentMenu')
-    }
-    //跳转到老师端
-    if (selectValue.value === '2') {
-      router.push('/TeacherMenu')
-    }
-  } else {
-    ElMessage.error('账号或密码错误！请重新输入！')
-    passWord.value = ''//密码改为空
   }
 }
 

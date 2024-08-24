@@ -4,6 +4,7 @@ import {reactive, ref} from "vue";
 import {DocumentChecked, Key, Message, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus"
 import {useRouter} from "vue-router";
+import axios from "axios";
 
 const router=useRouter()
 
@@ -62,13 +63,15 @@ const rules = {
 //表单提交方法
 function submitForm() {
   //表单校验
-  formRef.value.validate((valid) => {
+  formRef.value.validate(async (valid) => {
     if (valid) {//valid了说明表单校验通过
       console.log('表单校验通过！')
-      const encryptedPwd=CryptoJS.MD5(formData.passWord).toString()
+      const encryptedPwd = CryptoJS.MD5(formData.passWord).toString()
       //调用后端接口校验验证码
-
-      if (formData.captcha === backEndCaptcha.value) {
+      const newCaptcha = await axios.get('http://127.0.0.1:8080/register',{
+        'email':'',
+      })
+      {
         //调用后端接口注册用户,等待实现
         //axios.post('/register', formData).then(res => {
 

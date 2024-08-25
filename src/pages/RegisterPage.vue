@@ -5,10 +5,9 @@ import {DocumentChecked, Key, Message, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus"
 import {useRouter} from "vue-router";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 
-const router=useRouter()
-
-const backEndCaptcha = ref('')//后端返回的验证码
+const router = useRouter()
 
 const formData = reactive({
   emailAddress: '',
@@ -18,7 +17,7 @@ const formData = reactive({
   captcha: '',
 })
 
-const formRef=ref(null)
+const formRef = ref(null)
 
 
 const rules = {
@@ -66,26 +65,43 @@ function submitForm() {
   formRef.value.validate(async (valid) => {
     if (valid) {//valid了说明表单校验通过
       console.log('表单校验通过！')
-      const encryptedPwd = CryptoJS.MD5(formData.passWord).toString()
-      //调用后端接口校验验证码
-      const newCaptcha = await axios.get('http://127.0.0.1:8080/register',{
-        'email':'',
-      })
-      {
-        //调用后端接口注册用户,等待实现
-        //axios.post('/register', formData).then(res => {
 
-        ElMessage.success('注册成功！')
-        router.push('/StudentMenu')//注册成功跳转到学生主页面
-      }
+      axios.post('http://127.0.0.1:8080/register', {
+        "email": formData.emailAddress,
+        "username": formData.userName,
+        "password": formData.passWord,//后端已经实现MD5加密，不需要前端加
+        "captcha": formData.captcha,//用户输入的验证码
+      }).then((response) => {
+        console.log(response)
+        if (response.data?.msg === 'success') {
+          ElMessage.success('注册成功！')
+          router.push('/')//注册成功跳转到登陆页面
+        }
+      })
+
     }
   })
 }
 
-function sendEmail() {
+async function sendEmail() {
   //调用后端接口发送邮箱验证码
-  ElMessage.success('一封注册邮件已发送至您的邮箱，请输入邮箱内的验证码！')
+  if (formData.emailAddress === '') return ElMessage.error('请输入邮箱！')
+  if (formData.userName === '') return ElMessage.error('请输入昵称！')
+  if (formData.passWord === '') return ElMessage.error('请输入密码！')
+
+  //调用后端接口校验验证码
+  const response = await axios.put('http://127.0.0.1:8080/register', {
+    'email': formData.emailAddress,
+    'username': formData.userName,
+    'password': formData.passWord,//后端实现对密码的MD5加密
+  })
+
+  console.log(response)
+  if (response.data?.msg === 'success') return ElMessage.success('一封注册邮件已发送至您的邮箱，请输入邮箱内的验证码！');
+  if (response.data?.msg === "email already exist") return ElMessage.error('该用户已存在！请跳转到登录页');
+  if (response.data?.msg === "captcha request too frequently") return ElMessage.error('请求过于频繁！请稍后再试！')
 }
+
 </script>
 
 <template>
@@ -110,8 +126,8 @@ function sendEmail() {
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入昵称" label-position="top" size="large" prop="userName">
-                <el-input v-model="formData.userName" placeholder="昵称">
+              <el-form-item label="请输入名字" label-position="top" size="large" prop="userName">
+                <el-input v-model="formData.userName" placeholder="名字">
                   <template #prefix>
                     <el-icon size="large">
                       <User/>

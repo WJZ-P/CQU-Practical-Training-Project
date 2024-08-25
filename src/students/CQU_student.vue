@@ -15,27 +15,27 @@ const router = useRouter()
 
 
 function goToPersonalMsg() {
-  router.push('/AndroidApp/students/PersonalMsg')
+  router.push('/students/PersonalMsg')
 }
 
 function goToAccommodation() {
-  router.push('/AndroidApp/students/Accommodate')
+  router.push('/students/Accommodate')
 }
 
 function goToMsgQuery() {
-  router.push('/AndroidApp/students/MsgQuery')
+  router.push('/students/MsgQuery')
 }
 
 function goToCourseQuery() {
-  router.push('/AndroidApp/students/CourseQuery')
+  router.push('/students/CourseQuery')
 }
 
 function goToCourseRegister() {
-  router.push('/AndroidApp/students/CourseRegister')
+  router.push('/students/CourseRegister')
 }
 
 function goToConsult() {
-  router.push('/AndroidApp/students/Consult')
+  router.push('/students/Consult')
 }
 
 </script>

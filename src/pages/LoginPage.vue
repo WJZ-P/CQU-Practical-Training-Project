@@ -29,13 +29,16 @@ function checkin() {
   try {
     axios.post('http://127.0.0.1:8080/login', {
       "email": emailAddress.value,
-      "password": CryptoJS.MD5(passWord.value).toString(),
+      "password": passWord.value,
     }).then((response) => {
           console.log(response)
           if (response.data?.msg === 'login success') {
+            //登录成功后,把返回的jwt存到本地
+            localStorage.setItem('cqu-jwt', response.data)
+
             //登录成功，现在默认跳转到学生端
             ElMessage.success('登陆成功！')
-            router.push('/StudentMenu')
+            return router.push('/StudentMenu')
           }
 
           if (response.data?.msg === 'email not exist') {
@@ -44,7 +47,7 @@ function checkin() {
 
           if (response.data?.msg === 'password error') {
             passWord.value = ''//密码改为空
-            return ElMessage.error('密码错误！')
+            return ElMessage.error('密码错误！请重试！')
           }
 
           return ElMessage.error('出现错误，请重试')

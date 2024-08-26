@@ -16,7 +16,6 @@ import MsgQuery from "@/students/StuChildren/MsgQuery/MsgQuery.vue";
 import CourseQuery from "@/students/StuChildren/CourseQuery/CourseQuery.vue";
 import Consult from "@/students/StuChildren/Consult/Consult.vue";
 import MobileLoginPage from "@/Mobile/MobileLoginPage.vue";
-import testPage from "@/pages/SelectCoursePage.vue";
 import Dorm from "@/students/StuChildren/Accommodate/Dorm.vue";
 import DormPlum from "@/students/StuChildren/Accommodate/DormPlum.vue";
 import DormBamboo from "@/students/StuChildren/Accommodate/DormBamboo.vue";
@@ -25,14 +24,14 @@ import DormOrchid from "@/students/StuChildren/Accommodate/DormOrchid.vue";
 import axios from "axios";
 import SelectCoursePage from "@/pages/SelectCoursePage.vue";
 import StudentInfoPage from "@/pages/StudentInfoPage.vue";
+import TestPage from "@/TestPage.vue";
 
 const routes = [
     {path: '/', component: LoginPage}, {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
-
     {path: '/Register', component: RegisterPage},   //注册页面
     {path: '/Login', component: LoginPage},          //登陆页面
     {path: '/FindPassword', component: FindPwdPage},//找回密码页面
-    {path: '/testPage', component: testPage},       //测试页面
+    {path: '/testPage', component: TestPage},       //测试页面
     {
         path: '/StudentMenu',  //学生端主页
         children: [

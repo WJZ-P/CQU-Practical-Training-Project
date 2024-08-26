@@ -116,7 +116,7 @@ async function sendEmail() {
           <h2>账号注册</h2>
           <br>
           <div class="form-class">
-            <el-form :model="formData" ref="formRef" :rules="rules">
+            <el-form :model="formData" ref="formRef" :rules="rules" status-icon>
               <el-form-item label="请输入邮箱" label-position="top" prop="emailAddress">
                 <el-input v-model="formData.emailAddress" placeholder="邮箱" size="large">
                   <template #prefix>

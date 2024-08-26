@@ -24,17 +24,19 @@ function checkin() {
   if (emailAddress.value === '') return ElMessage.error('请输入邮箱！')
   if (passWord.value === '') return ElMessage.error('请输入密码！')
 
-  console.log('请求登录接口')
+
   //下面开始请求接口做登录校验
   try {
+    console.log('正在请求登录接口')
     axios.post('http://127.0.0.1:8080/login', {
       "email": emailAddress.value,
       "password": passWord.value,
     }).then((response) => {
-          console.log(response)
           if (response.data?.msg === 'login success') {
             //登录成功后,把返回的jwt存到本地
-            localStorage.setItem('cqu-jwt', response.data)
+            console.log('[登录接口]'+'收到的jwt为'+response.data.data)
+            localStorage.setItem('cqu-jwt', response.data.data)
+
 
             //登录成功，现在默认跳转到学生端
             ElMessage.success('登陆成功！')
@@ -53,8 +55,7 @@ function checkin() {
           return ElMessage.error('出现错误，请重试')
         }
     )
-  } catch
-      (e) {
+  } catch (e) {
     console.log(e)
     ElMessage.error('出现错误，请重试')
   }
@@ -138,17 +139,17 @@ function checkin() {
     </Section>
 
   </div>
-  <Section>
-    <div class="button-div">
-      <RouterLink to="/TeacherMenu">
-        <button class="custom-button">点我跳转到网页端</button>
-      </RouterLink>
+<!--  <Section>-->
+<!--    <div class="button-div">-->
+<!--      <RouterLink to="/TeacherMenu">-->
+<!--        <button class="custom-button">点我跳转到网页端</button>-->
+<!--      </RouterLink>-->
 
-      <RouterLink to="/AndroidApp">
-        <button class="custom-button">点我跳转到移动端</button>
-      </RouterLink>
-    </div>
-  </Section>
+<!--      <RouterLink to="/AndroidApp">-->
+<!--        <button class="custom-button">点我跳转到移动端</button>-->
+<!--      </RouterLink>-->
+<!--    </div>-->
+<!--  </Section>-->
 </template>
 
 

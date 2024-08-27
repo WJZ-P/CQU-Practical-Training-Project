@@ -1,15 +1,14 @@
 <script setup>
 import Section from "@/components/UtilsComponnet/Section.vue";
-import {reactive, ref} from "vue";
-import {DocumentChecked, Key, Message, User} from "@element-plus/icons-vue";
+import {onBeforeMount, ref} from "vue";
+import {Check, Edit, Key, Location, Phone, School, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus"
 import {useRouter} from "vue-router";
 import axios from "axios";
-import CryptoJS from "crypto-js";
 
 const router = useRouter()
 
-const formData = reactive({
+const formData = ref({
   name: "",         //姓名
   stuId: "",        //学号
   department: "",   //学院
@@ -24,7 +23,7 @@ const formData = reactive({
   token: ""         //学校方面的token
 })
 
-const formRef = ref(null)
+const formRef = ref(null)//保存用户存入的数据
 // {
 //     type: 'string',
 //     required: true,
@@ -36,38 +35,66 @@ const rules = {
     required: true,
     message: '请输入姓名',
     trigger: 'blur'//失去焦点触发
-  }, {
-    type: 'email',
-    message: '请输入正确的邮箱格式',
+  }],
+  stuId: [{
+    required: true,
+    message: '请输入学号',
     trigger: 'blur'
   }],
-  userName: [{
+  department: [{
     required: true,
-    message: '请输入昵称',
+    message: '请输入学院',
     trigger: 'blur'
   }],
-  passWord: [{
+  major: [{
     required: true,
-    message: '请输入密码',
+    message: '请输入专业',
     trigger: 'blur'
   }],
-  reConfirmPwd: [{
+  classes: [{
     required: true,
-    message: '请输入确认密码',
-    trigger: 'blur'
-  }, {
-    validator: (rule, value, callback) => {
-      if (value !== formData.passWord) {
-        callback(new Error('两次密码输入不一致！'))
-      } else callback()
-    },
+    message: '请输入班级',
     trigger: 'blur'
   }],
-  captcha: [{
+  id:[{
     required: true,
-    message: '请输入验证码',
+    message: '请输入身份证号',
     trigger: 'blur'
-  }]
+  },{
+    type: 'string',
+    pattern: /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
+    message: '请输入正确的身份证号格式！'
+  }],
+  nation: [{
+    required: true,
+    message: '请输入民族',
+    trigger: 'blur'
+  }],
+  address: [{
+    required: true,
+    message: '请输入家庭住址',
+    trigger: 'blur'
+  }],
+  phoneNumber: [{
+    required: true,
+    message: '请输入电话号码',
+    trigger: 'blur'
+  }],
+  email: [{
+    required: true,
+    message: '请输入邮箱',
+    trigger: 'blur'
+  }],
+  stuPassword: [{
+    required: false,
+    message: '请输入学生密码',
+    trigger: 'blur'
+  }],
+  token: [{
+    required: false,
+    message: '请输入token',
+    trigger: 'blur'
+  }],
 }
 
 //表单提交方法
@@ -75,25 +102,35 @@ function submitForm() {
   //表单校验
   formRef.value.validate(async (valid) => {
     if (valid) {//valid了说明表单校验通过
-      console.log('表单校验通过！')
+      console.log('表单校验通过！下面是即将提交的信息')
+      console.log(formData.value)
 
-      axios.post('http://127.0.0.1:8080/register', {
-        "email": formData.emailAddress,
-        "username": formData.userName,
-        "password": formData.passWord,//后端已经实现MD5加密，不需要前端加
-        "captcha": formData.captcha,//用户输入的验证码
-      }).then((response) => {
+
+      axios.post('http://127.0.0.1:8080/accountCompletion', formData.value,{headers:{
+        "Authorization":localStorage.getItem('cqu-jwt')
+        }}).then((response) => {
         console.log(response)
         if (response.data?.msg === 'success') {
-          ElMessage.success('注册成功！')
-          router.push('/')//注册成功跳转到登陆页面
+          ElMessage.success('修改成功！')
+          router.push('/StudentMenu')//注册成功跳转到学生端主页
         }
       })
-
     }
   })
 }
 
+onBeforeMount(() => {
+  const myConfig = {
+    headers: {
+      'Authorization': localStorage.getItem('cqu-jwt')
+    }
+  }
+  axios.get('http://127.0.0.1:8080/queryAccount', myConfig).then(res => {
+    console.log(res.data.data)
+    formData.value=res.data.data
+    formData.value.stuPassword=''//密码留空，给用户修改密码
+  })
+})
 </script>
 
 <template>
@@ -102,25 +139,16 @@ function submitForm() {
     <!--  编写跳转-->
     <Section class="login-page">
       <div class="register-div">
-        <Section class="register-section animate__animated animate__bounceIn">
+        <Section class="register-section animate__animated animate__zoomInDown animate__fast">
           <h1 class="register-text">个人信息修改页面</h1>
           <br>
           <h2>请勿泄露任何个人信息！</h2>
           <br>
           <div class="form-class">
             <el-form :model="formData" ref="formRef" :rules="rules"
-            status-icon label-width="auto">
-              <el-form-item label="请输入姓名" prop="emailAddress">
+                     status-icon label-width="auto">
+              <el-form-item label="请输入姓名" prop="name">
                 <el-input v-model="formData.name" placeholder="姓名" size="large">
-                  <template #prefix>
-                    <el-icon size="large">
-                      <Message/>
-                    </el-icon>
-                  </template>
-                </el-input>
-              </el-form-item>
-              <el-form-item label="请输入学号"  size="large" prop="userName">
-                <el-input v-model="formData.stuId" placeholder="学号">
                   <template #prefix>
                     <el-icon size="large">
                       <User/>
@@ -128,110 +156,102 @@ function submitForm() {
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入学院"  size="large" prop="passWord">
-                <el-input v-model="formData.department" placeholder="学院" show-password>
+              <el-form-item label="请输入学号" size="large" prop="stuId">
+                <el-input v-model="formData.stuId" placeholder="学号">
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <Edit/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入专业" size="large" prop="reConfirmPwd">
-                <el-input v-model="formData.major" placeholder="专业" show-password>
+              <el-form-item label="请输入学院" size="large" prop="department">
+                <el-input v-model="formData.department" placeholder="学院" >
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <School/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入班级" size="large" prop="reConfirmPwd">
-                <el-input v-model="formData.classes" placeholder="班级" show-password>
+              <el-form-item label="请输入专业" size="large" prop="major">
+                <el-input v-model="formData.major" placeholder="专业" >
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <img src="./assets/icons/school_24dp_5F6368_FILL0_wght200_GRAD-25_opsz40.svg" alt=""/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入专业" size="large" prop="reConfirmPwd">
-                <el-input v-model="formData.major" placeholder="专业" show-password>
+              <el-form-item label="请输入班级" size="large" prop="classes">
+                <el-input v-model="formData.classes" placeholder="班级" >
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <img src="./assets/icons/stacks_24dp_A7A9B0_FILL0_wght200_GRAD-25_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入身份证号" size="large" prop="reConfirmPwd">
+
+              <el-form-item label="请输入身份证号" size="large" prop="id">
                 <el-input v-model="formData.id" placeholder="身份证号" show-password>
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <img src="./assets/icons/fingerprint_24dp_A7A9B0_FILL0_wght200_GRAD-25_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入专业" size="large" prop="reConfirmPwd">
-                <el-input v-model="formData.major" placeholder="专业" show-password>
+              <el-form-item label="请输入民族" size="large" prop="nation">
+                <el-input v-model="formData.nation" placeholder="民族" >
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <img src="./assets/icons/diversity_1_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入民族" size="large" prop="reConfirmPwd">
-                <el-input v-model="formData.nation" placeholder="民族" show-password>
+              <el-form-item label="请输入家庭住址" size="large" prop="address">
+                <el-input v-model="formData.address" placeholder="家庭住址" >
                   <template #prefix>
                     <el-icon size="large">
-                      <Key/>
+                      <Location/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入家庭住址" size="large" prop="captcha">
-                <el-input v-model="formData.address" placeholder="家庭住址" show-password>
-                  <template #prefix>
-                    <el-icon size="large">
-                      <DocumentChecked/>
-                    </el-icon>
-                  </template>
-                </el-input>
-              </el-form-item>
-              <el-form-item label="请输入电话号码" size="large" prop="captcha">
+              <el-form-item label="请输入电话号码" size="large" prop="phoneNumber">
                 <el-input v-model="formData.phoneNumber" placeholder="电话号码" show-password>
                   <template #prefix>
                     <el-icon size="large">
-                      <DocumentChecked/>
+                      <Phone/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入邮箱" size="large" prop="captcha">
-                <el-input v-model="formData.email" placeholder="邮箱" show-password>
+              <el-form-item label="请输入邮箱" size="large" prop="email">
+                <el-input v-model="formData.email" placeholder="邮箱">
                   <template #prefix>
                     <el-icon size="large">
-                      <DocumentChecked/>
+                      <img src="./assets/icons/mail_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入密码" size="large" prop="captcha">
-                <el-input v-model="formData.stuPassword" placeholder="密码" show-password>
+              <el-form-item label="修改密码" size="large" prop="stuPassword">
+                <el-input v-model="formData.stuPassword" placeholder="新密码" show-password>
                   <template #prefix>
                     <el-icon size="large">
-                      <DocumentChecked/>
+                      <Key/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入token" size="large" prop="captcha">
-                <el-input v-model="formData.token" placeholder="token" show-password>
+              <el-form-item label="请输入token" size="large" prop="token">
+                <el-input v-model="formData.token" placeholder="填写学校官网获取的token" show-password>
                   <template #prefix>
                     <el-icon size="large">
-                      <DocumentChecked/>
+                      <img src="./assets/icons/encrypted_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
@@ -241,15 +261,14 @@ function submitForm() {
             </el-form>
           </div>
           <el-button type="primary" class="register-button" @click="submitForm">
-            <el-icon>
-              <User/>
+            <el-icon :size="25">
+              <Check/>
             </el-icon>
-            立即注册
+            确认修改
           </el-button>
         </Section>
       </div>
     </Section>
-
   </div>
 </template>
 
@@ -269,6 +288,7 @@ function submitForm() {
   width: 35%;
   height: 50%;
   align-items: center;
+
 }
 
 .register-section {
@@ -277,6 +297,7 @@ function submitForm() {
   align-items: center;
   padding: 20px;
   opacity: 0.95 !important;
+  overflow: hidden;
 }
 
 .register-text {
@@ -285,8 +306,8 @@ function submitForm() {
   text-align: center;
   font-size: 40px;
   font-weight: bolder;
-  color: #fffefe;
-  text-shadow: 2px 2px 4px #000000;
+  color: #4198f2;
+  text-shadow: 2px 2px 4px #6cbfd2;
 }
 
 .form-class {

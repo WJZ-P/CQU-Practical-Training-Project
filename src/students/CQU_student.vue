@@ -1,5 +1,4 @@
 <script setup>
-import TeacherHeader from "@/students/StuChildren/TeacherHeader.vue";
 import calendar from '@/students/StuChildren/calendar.vue'; // 导入日历组件
 import imgurl1 from "@/students/StuChildren/picture/个人信息.svg";
 import imgurl2 from "@/students/StuChildren/picture/住宿安排.svg";
@@ -10,6 +9,7 @@ import imgurl6 from "@/students/StuChildren/picture/在线咨询.svg";
 import pessi from "@/students/StuChildren/picture/证件照.jpg";
 import {useRouter} from "vue-router";
 import "animate.css"
+import Header from "@/components/Header.vue";
 
 const router = useRouter()
 
@@ -41,7 +41,7 @@ function goToConsult() {
 </script>
 <template>
   <div class="container" style="overflow: hidden">
-    <TeacherHeader title="学生首页"/>
+    <Header title="学生首页"/>
     <div class="first_line">
       <div class="card animate__animated animate__backInLeft animate__fast">
         <div class="Top_Bar">

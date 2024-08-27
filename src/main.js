@@ -27,7 +27,7 @@ import StudentInfoPage from "@/pages/StudentInfoPage.vue";
 import TestPage from "@/TestPage.vue";
 
 const routes = [
-    {path: '/', component: LoginPage}, {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
+    {path: '/', component: CQU_student}, {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
     {path: '/Register', component: RegisterPage},   //注册页面
     {path: '/Login', component: LoginPage},          //登陆页面
     {path: '/FindPassword', component: FindPwdPage},//找回密码页面
@@ -90,7 +90,6 @@ router.beforeEach(async (to, from) => {
         const isAuthed = result.data?.msg === `success`
 
         console.log('[路由导航jwt鉴权]' + '鉴权结果为' + isAuthed)
-
         // 将用户重定向到登录页面
         if (!isAuthed && to.fullPath !== '') {
             ElMessage.error('登录已过期！请重新登录！')

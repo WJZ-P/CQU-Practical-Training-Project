@@ -1,8 +1,17 @@
 <script setup>
 import DateTime from "@/components/UtilsComponnet/DateTime.vue";
 import ResponsiveEl from "@/components/UtilsComponnet/ResponsiveEl.vue";
+import {ElMessage} from "element-plus";
+import {useRouter} from "vue-router";
+const router=useRouter()
+const props = defineProps({title: String})
 
-const props=defineProps({title:String})
+//实现退出登录功能
+function quitLogin(){
+localStorage.removeItem('cqu-jwt')
+  ElMessage.success('退出成功，已为您跳转到登陆页面')
+  router.push('/')
+}
 </script>
 
 <template>
@@ -12,8 +21,11 @@ const props=defineProps({title:String})
         <img src="https://my.cqu.edu.cn/workspace/static/img/logo-workspace.1d5ca1b8.png" alt="重大校徽">
       </div>
     </ResponsiveEl>
-    <p style="color: white;align-content: center;align-self: center">{{props.title}}</p>
-    <DateTime class="date-time-component"/>
+    <p style="color: white;align-content: center;align-self: center;font-size: 4vmin">{{ props.title }}</p>
+    <div>
+      <DateTime class="date-time-component"/>
+      <el-button class="quit-button" type="primary" plain @click="quitLogin">退出登录</el-button>
+    </div>
   </div>
 </template>
 
@@ -21,7 +33,6 @@ const props=defineProps({title:String})
 <style scoped>
 .header {
   height: 60px;
-
   background-color: #0052a8;
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
@@ -61,6 +72,10 @@ p {
   img {
     height: 80%;
   }
+}
+
+.quit-button{
+  margin-left: -60px;
 }
 
 </style>

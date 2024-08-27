@@ -24,7 +24,7 @@ localStorage.removeItem('cqu-jwt')
     <p style="color: white;align-content: center;align-self: center;font-size: 4vmin">{{ props.title }}</p>
     <div>
       <DateTime class="date-time-component"/>
-      <el-button class="quit-button" type="primary" plain @click="quitLogin">退出登录</el-button>
+      <el-button class="quit-button" type="primary" plain @click="quitLogin" size="large">退出登录</el-button>
     </div>
   </div>
 </template>
@@ -76,6 +76,7 @@ p {
 
 .quit-button{
   margin-left: -60px;
+  font-size: 20px;
 }
 
 </style>

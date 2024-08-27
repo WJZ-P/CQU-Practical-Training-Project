@@ -21,13 +21,13 @@ function goToPersonalMsg() {
 function goToAccommodation() {
   router.push('/StudentMenu/Accommodate')
 }
-
+//信息查询
 function goToMsgQuery() {
   router.push('/StudentMenu/MsgQuery')
 }
 
 function goToCourseQuery() {
-  router.push('/StudentMenu/CourseQuery')
+  router.push('/StudentMenu/SearchCourse')
 }
 
 function goToCourseRegister() {

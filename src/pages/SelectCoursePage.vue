@@ -46,8 +46,8 @@ async function obtainedCourseCount() {
   let newcredit = 0;
   let count = 0;
   for (let kind in obtainedCourseList.value) {//遍历所有的课程
-      newcredit += parseFloat(obtainedCourseList.value[kind].courseCredit);
-      count++;
+    newcredit += parseFloat(obtainedCourseList.value[kind].courseCredit);
+    count++;
   }
   obtainedCourseInfo.value.count = count
   obtainedCourseInfo.value.credit = newcredit
@@ -110,10 +110,10 @@ async function submit(credit, jwt) {
 onBeforeMount(async () => {
   console.log("从重庆大学官网获取选课数据中");
   ElMessage.success('正在拉取课程信息，请稍候')
-  await getOfficialCourseInfo("eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMyIsImVtYWlsIjoiMjE4MTc1OTQ4N0BxcS5jb20iLCJleHAiOjE3MjQ3NjcyMTF9.-YSVQSyXZbLwnX_VirXS9PXsgWzuCImhwKsJivAQwBs");
+  await getOfficialCourseInfo(localStorage.getItem('cqu-jwt'));
 
   console.log("从后台获取个人选课数据中");
-  await getCourseInfo("eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMyIsImVtYWlsIjoiMjE4MTc1OTQ4N0BxcS5jb20iLCJleHAiOjE3MjQ3NjcyMTF9.-YSVQSyXZbLwnX_VirXS9PXsgWzuCImhwKsJivAQwBs");
+  await getCourseInfo(localStorage.getItem('cqu-jwt'));
 
   console.log("调用计算学分的功能");
   await obtainedCourseCount();
@@ -128,8 +128,8 @@ async function getCourseInfo(jwt) {
       }
     }
     const response = await axios.post(`http://127.0.0.1:8080/course`, {}, config);
-    obtainedCourseList.value=JSON.parse(response.data.data)
-    obtainedCourseList.value=obtainedCourseList.value.alreadySelectCourseListVOs;
+    obtainedCourseList.value = JSON.parse(response.data.data)
+    obtainedCourseList.value = obtainedCourseList.value.alreadySelectCourseListVOs;
     console.log('成功获取个人个人选课数据:');
     ElMessage.success("成功获取个人个人选课数据");
   } catch (error) {
@@ -147,7 +147,12 @@ async function getOfficialCourseInfo(jwt) {
       }
     }
     const response = await axios.put(`http://127.0.0.1:8080/course`, {}, config);
+    console.log('[获取官网选课信息]')
+    console.log(response)
     // 两层获取data层级以获取到以字符串格式存储的数据,此时获取到的内容是字符串，需要进行转换，转换之后再获取data就是需要的数据
+    console.log((JSON.parse(response.data.data))?.error_description)
+    if((JSON.parse(response.data.data))?.error_description!==undefined) return ElMessage.error('获取官网选课信息失败，请更新token后再试！');
+
     obtainedOfficialCourseList.value = JSON.parse(response.data.data);
     obtainedOfficialCourseList.value = obtainedOfficialCourseList.value.data;
     // 获取专业课
@@ -182,11 +187,15 @@ async function getOfficialCourseInfo(jwt) {
                         @selection-change="handleMajorSelectChange" size="large"
                         max-height="500" table-layout="auto" border class-name="class-table" style="width: 100%">
                 <el-table-column class="table-column" class-name="first-col" label="课程名字" prop="name" width="200"/>
-                <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR" width="140"/>
-                <el-table-column class="table-column" class-name="common-col"  label="学分" prop="credit" width="100"/>
-                <el-table-column class="table-column" class-name="common-col" label="校区" prop="campusShortNameSet" width="150"/>
-                <el-table-column class="table-column" class-name="common-col" label="课程类别" prop="courseCategory" width="180"/>
-                <el-table-column class="table-column" class-name="common-col" label="课程性质" prop="courseNature" width="120"/>
+                <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR"
+                                 width="140"/>
+                <el-table-column class="table-column" class-name="common-col" label="学分" prop="credit" width="100"/>
+                <el-table-column class="table-column" class-name="common-col" label="校区" prop="campusShortNameSet"
+                                 width="150"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程类别" prop="courseCategory"
+                                 width="180"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程性质" prop="courseNature"
+                                 width="120"/>
                 <el-table-column class="table-column" class-name="common-col" label="所属学院" prop="departmentName"/>
                 <el-table-column class="table-column" class-name="common-col" fixed="right" type="selection"/>
               </el-table>
@@ -215,18 +224,18 @@ async function getOfficialCourseInfo(jwt) {
               <el-table :data="unLimitedCourseList" stripe
                         @selection-change="handleUnLimitedSelectChange" size="large"
                         max-height="1000" table-layout="auto" border>
-                <el-table-column class="table-column" class-name="first-col" label="课程名字" prop="name" width="200"/>
-                <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR"
+                <el-table-column class-name="first-col" label="课程名字" prop="name" width="200"/>
+                <el-table-column class-name="second-col" label="课程代码" prop="codeR"
                                  width="120"/>
-                <el-table-column class="table-column" class-name="common-col" label="学分" prop="credit" width="100"/>
-                <el-table-column class="table-column" class-name="common-col" label="校区" prop="campusShortNameSet"
+                <el-table-column class-name="common-col" label="学分" prop="credit" width="100"/>
+                <el-table-column class-name="common-col" label="校区" prop="campusShortNameSet"
                                  width="150"/>
-                <el-table-column class="table-column" class-name="common-col" label="课程类别" prop="courseCategory"
+                <el-table-column class-name="common-col" label="课程类别" prop="courseCategory"
                                  width="180"/>
-                <el-table-column class="table-column" class-name="common-col" label="课程性质" prop="courseNature"
+                <el-table-column class-name="common-col" label="课程性质" prop="courseNature"
                                  width="120"/>
-                <el-table-column class="table-column" class-name="common-col" label="所属学院" prop="departmentName"/>
-                <el-table-column class="table-column" class-name="common-col" fixed="right" type="selection"/>
+                <el-table-column class-name="common-col" label="所属学院" prop="departmentName"/>
+                <el-table-column class-name="common-col" fixed="right" type="selection"/>
               </el-table>
             </div>
           </div>
@@ -276,7 +285,9 @@ async function getOfficialCourseInfo(jwt) {
               <li v-for="item in obtainedCourseList" :key="item.name">
                 <Section class="course-section animate__animated animate__backInRight">
                   <h3 v-if="item.courseNature==='必修'" class="course-nature">{{ item.courseNature }}</h3>
-                  <h3 v-if="item.courseNature==='选修'" class="course-nature" style="color:gray">{{ item.courseNature }}</h3>
+                  <h3 v-if="item.courseNature==='选修'" class="course-nature" style="color:gray">{{
+                      item.courseNature
+                    }}</h3>
                   <p class="course-name">{{ item.courseName }}</p>
                   <h4>{{ item.courseCredit }}&nbsp;学分</h4>
                 </Section>
@@ -393,13 +404,20 @@ li {
   font-size: large;
 }
 
-.common-col{
-  font-size: large;
+.eng-col {
+  font-size: 18px;
 }
 
-.class-table{
+.common-col {
+  font-size: large;
+  justify-content: center;
+  align-items: center;
+}
+
+.class-table {
   width: 100%;
 }
+
 .submit {
   margin-left: 35%;
   width: 30%;

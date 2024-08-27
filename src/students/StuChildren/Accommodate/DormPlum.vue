@@ -139,7 +139,7 @@ let plumBuildings = ref([
 ]
 )
 
-const submit = async () => {
+const submitDorm = async () => {
   try {
     const response = await axios.post('http://127.0.0.1:8080/selectDorm', {
       building_Id: selRoom.value[0],
@@ -215,12 +215,12 @@ onMounted(()=>{
       <el-cascader-panel :options="plumBuildings" v-model="selRoom"/>
     </div>
 <!--设置提交按钮以及当前所选寝室所在的盒子-->
-    <div class = "submit">
+    <div class = "submit-box">
       <p class="currRoom">当前已选宿舍：
       {{selRoom[0]+selRoom[1]+selRoom[2]}}
       </p>
 <!--      此处的submit是提交的函数而非类名-->
-    <button @click="submit">提交申请</button>
+    <button @click="submitDorm">提交申请</button>
     </div>
       <div>
     </div>
@@ -271,7 +271,7 @@ p {
   padding:20px;
 }
 
-.submit{
+.submit-box {
   display: flex;
   flex-wrap: nowrap;
   margin-top: 2%;

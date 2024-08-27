@@ -25,9 +25,11 @@ import axios from "axios";
 import SelectCoursePage from "@/pages/SelectCoursePage.vue";
 import StudentInfoPage from "@/pages/StudentInfoPage.vue";
 import TestPage from "@/TestPage.vue";
-
+import SearchCoursePage from "@/pages/SearchCoursePage.vue";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
 const routes = [
-    {path: '/', component: CQU_student}, {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
+    {path: '/', component: CQU_student},
+    {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
     {path: '/Register', component: RegisterPage},   //注册页面
     {path: '/Login', component: LoginPage},          //登陆页面
     {path: '/FindPassword', component: FindPwdPage},//找回密码页面
@@ -38,6 +40,7 @@ const routes = [
             {path: "", component: CQU_student},
             {path: "selectCourse", component: SelectCoursePage},
             {path:'studentInfo',component: StudentInfoPage},
+            {path:'SearchCourse',component: SearchCoursePage},
             {
                 path: 'Accommodate',//转到宿舍页面
                 children: [
@@ -106,6 +109,6 @@ router.beforeEach(async (to, from) => {
 
 const app = createApp(App)
 
-app.use(ElementPlus)
+app.use(ElementPlus,{locale:zhCn})
 app.use(router)
 app.mount('#app')

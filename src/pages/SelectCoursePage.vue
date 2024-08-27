@@ -180,63 +180,53 @@ async function getOfficialCourseInfo(jwt) {
               <h3>主修专业课程</h3>
               <el-table :data="majorCourseList" stripe
                         @selection-change="handleMajorSelectChange" size="large"
-                        max-height="500" table-layout="auto" border style="width: 100%">
+                        max-height="500" table-layout="auto" border class-name="class-table" style="width: 100%">
                 <el-table-column class="table-column" class-name="first-col" label="课程名字" prop="name" width="200"/>
-                <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR"
-                                 width="140"/>
-                <el-table-column class="table-column" class-name="third-col" label="学分" prop="credit" width="100"/>
-                <el-table-column class="table-column" class-name="forth-col" label="校区" prop="campusShortNameSet"
-                                 width="100"/>
-                <el-table-column class="table-column" class-name="fifth-col" label="课程类别" prop="courseCategory"
-                                 width="140"/>
-                <el-table-column class="table-column" class-name="sixth-col" label="课程性质" prop="courseNature"
-                                 width="120"/>
-                <el-table-column class="table-column" class-name="seventh-col" label="所属学院" prop="departmentName"
-                                 width="240"/>
-                <el-table-column class="table-column" class-name="eighth-col" fixed="right" type="selection"
-                                 width="55"/>
+                <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR" width="140"/>
+                <el-table-column class="table-column" class-name="common-col"  label="学分" prop="credit" width="100"/>
+                <el-table-column class="table-column" class-name="common-col" label="校区" prop="campusShortNameSet" width="150"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程类别" prop="courseCategory" width="180"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程性质" prop="courseNature" width="120"/>
+                <el-table-column class="table-column" class-name="common-col" label="所属学院" prop="departmentName"/>
+                <el-table-column class="table-column" class-name="common-col" fixed="right" type="selection"/>
               </el-table>
             </div>
             <div class="box-div">
               <h3>通识教育课程</h3>
               <el-table :data="commonSenseCourseList" stripe
                         @selection-change="handleMinorSelectChange" size="large"
-                        max-height="500" table-layout="auto" border>
+                        max-height="700" table-layout="auto" border>
                 <el-table-column class="table-column" class-name="first-col" label="课程名字" prop="name" width="200"/>
                 <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR"
                                  width="120"/>
-                <el-table-column class="table-column" class-name="third-col" label="学分" prop="credit" width="100"/>
-                <el-table-column class="table-column" class-name="forth-col" label="校区" prop="campusShortNameSet"
-                                 width="100"/>
-                <el-table-column class="table-column" class-name="fifth-col" label="课程类别" prop="courseCategory"
-                                 width="140"/>
-                <el-table-column class="table-column" class-name="sixth-col" label="课程性质" prop="courseNature"
+                <el-table-column class="table-column" class-name="common-col" label="学分" prop="credit" width="100"/>
+                <el-table-column class="table-column" class-name="common-col" label="校区" prop="campusShortNameSet"
+                                 width="150"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程类别" prop="courseCategory"
+                                 width="180"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程性质" prop="courseNature"
                                  width="120"/>
-                <el-table-column class="table-column" class-name="seventh-col" label="所属学院" prop="departmentName"
-                                 width="240"/>
-                <el-table-column class="table-column" class-name="eighth-col" fixed="right" type="selection"
-                                 width="55"/>
+                <el-table-column class="table-column" class-name="common-col" label="所属学院" prop="departmentName"/>
+                <el-table-column class="table-column" class-name="common-col" fixed="right" type="selection"/>
               </el-table>
             </div>
             <div class="box-div">
               <h3>非限制选修课程</h3>
               <el-table :data="unLimitedCourseList" stripe
                         @selection-change="handleUnLimitedSelectChange" size="large"
-                        max-height="500" table-layout="auto" border>
+                        max-height="1000" table-layout="auto" border>
                 <el-table-column class="table-column" class-name="first-col" label="课程名字" prop="name" width="200"/>
                 <el-table-column class="table-column" class-name="second-col" label="课程代码" prop="codeR"
                                  width="120"/>
-                <el-table-column class="table-column" class-name="third-col" label="学分" prop="credit" width="100"/>
-                <el-table-column class="table-column" class-name="forth-col" label="校区" prop="campusShortNameSet"
-                                 width="100"/>
-                <el-table-column class="table-column" class-name="fifth-col" label="课程类别" prop="courseCategory"
-                                 width="140"/>
-                <el-table-column class="table-column" class-name="sixth-col" label="课程性质" prop="courseNature"
+                <el-table-column class="table-column" class-name="common-col" label="学分" prop="credit" width="100"/>
+                <el-table-column class="table-column" class-name="common-col" label="校区" prop="campusShortNameSet"
+                                 width="150"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程类别" prop="courseCategory"
+                                 width="180"/>
+                <el-table-column class="table-column" class-name="common-col" label="课程性质" prop="courseNature"
                                  width="120"/>
-                <el-table-column class="table-column" class-name="seventh-col" label="所属学院" prop="departmentName"
-                                 width="240"/>
-                <el-table-column class="table-column" class-name="eighth-col" fixed="right" type="selection"
-                                 width="55"/>
+                <el-table-column class="table-column" class-name="common-col" label="所属学院" prop="departmentName"/>
+                <el-table-column class="table-column" class-name="common-col" fixed="right" type="selection"/>
               </el-table>
             </div>
           </div>
@@ -395,12 +385,21 @@ li {
 
 .first-col {
   color: #188ffd;
+  font-size: large;
 }
 
 .second-col {
   color: #bbbbbb;
+  font-size: large;
 }
 
+.common-col{
+  font-size: large;
+}
+
+.class-table{
+  width: 100%;
+}
 .submit {
   margin-left: 35%;
   width: 30%;

@@ -71,8 +71,8 @@ const router = createRouter({//这里创建了一个路由
 
 //创建全局前置守卫
 router.beforeEach(async (to, from) => {
-    if (to.fullPath === '/' || to.fullPath === '/Register' || to.fullPath === '/Login') {
-        console.log('[路由导航]' + '访问的是根页面，直接允许跳转')
+    if (to.fullPath === '/Register' || to.fullPath === '/Login') {
+        console.log('[路由导航]' + '访问的是注册页或登录页，直接允许跳转')
         return true
     }
 

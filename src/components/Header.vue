@@ -10,7 +10,7 @@ const props = defineProps({title: String})
 function quitLogin(){
 localStorage.removeItem('cqu-jwt')
   ElMessage.success('退出成功，已为您跳转到登陆页面')
-  router.push('/')
+  router.push('/Login')
 }
 </script>
 

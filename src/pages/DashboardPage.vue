@@ -2,11 +2,10 @@
   <el-container>
     <!-- 侧边栏 -->
     <el-aside width="28vmin" class="sidebar animate__animated animate__backInLeft">
-      <img src="@/students/StuChildren/picture/logoL.png" alt="logo" class="logo"/>
+      <img src="@/students/StuChildren/picture/logol.png" alt="logo" class="logo"/>
       <el-menu :default-active="activeMenu" class="el-menu-vertical-demo" background-color="#bbcad7"
                text-color="#000000FF" active-text-color="#409EFF">
-
-        <el-sub-menu index="1" style="color: #bbcad7">
+        <el-sub-menu index="1">
           <template #title>
             <i class="el-icon-s-tools"></i>
             <span>首页</span>
@@ -30,7 +29,7 @@
             <span>通知公告</span>
           </template>
         </el-sub-menu>
-        <RouterLink to="/TeacherMenu/bigScreen" style="color: black;text-decoration: none">
+        <RouterLink to="/TeacherMenu/bigScreen" style="text-decoration:none">
           <el-sub-menu index="4">
 
             <template #title>
@@ -53,7 +52,7 @@
             <h3 class="platform-name">学校信息管理平台</h3>
           </el-col>
           <el-col :span="8" class="user-info">
-            <el-avatar src="@/Mobile/students/StuChildren/picture/logo.png"/>
+            <el-avatar src="@/students/StuChildren/picture/logol.png"/>
             <span>{{ username }}</span>
           </el-col>
         </el-row>
@@ -63,25 +62,24 @@
       <el-main class="animate__animated animate__backInUp">
         <!-- 操作栏 -->
         <el-card class="box-card">
-          <el-input v-model="searchName" placeholder="请输入学院名称" size="small" class="filter-input"></el-input>
-          <el-button type="primary" size="small" @click="getData" round>搜索</el-button>
+          <el-input v-model="searchName" placeholder="请输入寝室楼栋" size="small" class="filter-input"></el-input>
+          <el-button type="primary" size="small" @click="searchDormitory" round>搜索</el-button>
           <el-button type="primary" size="small" color="orange" class="button" @click="handleCreate" round>新增
           </el-button>
         </el-card>
 
         <!-- 数据列表 -->
         <el-card class="box-card data">
-          <el-table :data="tableData" style="width: 100%" size="small">
+          <el-table :data="tableData" style="width: 100%" size="large" max-height="2000">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column type="index" label="序号" width="80"></el-table-column>
-            <el-table-column prop="name" label="寝室园区" width="180"></el-table-column>
-            <el-table-column prop="address" label="寝室楼栋"></el-table-column>
-            <el-table-column prop="phone" label="寝室楼层"></el-table-column>
-            <el-table-column prop="desc" label="寝室房间"></el-table-column>
+            <el-table-column prop="buildingId" label="寝室楼栋" width="180"></el-table-column>
+            <el-table-column prop="floor" label="寝室楼层"></el-table-column>
+            <el-table-column prop="roomNum" label="寝室房间"></el-table-column>
             <el-table-column label="操作" align="center" width="180px">
               <template v-slot="scope">
-                <el-button type="primary" size="small" @click="handleeditor(scope.row)" plain>编辑</el-button>
-                <el-button type="danger" size="small" @click="deleteUser(scope.row.id)" plain>删除</el-button>
+                <el-button type="primary" size="small" @click="handleEdit(scope.row)" plain>编辑</el-button>
+                <el-button type="danger" size="small" @click="deleteDormitory(scope.row)" plain>删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -95,17 +93,14 @@
         <!-- 弹窗 -->
         <el-dialog draggable destroy-on-close v-model="dialogVisible" title="寝室编辑" width="35%" center>
           <el-form :model="form" label-width="auto" style="max-width: 100vmin">
-            <el-form-item label="寝室园区">
-              <el-input v-model="form.name"/>
-            </el-form-item>
             <el-form-item label="寝室楼栋">
-              <el-input v-model="form.name"/>
+              <el-input v-model="form.buildingId"/>
             </el-form-item>
             <el-form-item label="寝室楼层">
-              <el-input v-model="form.name"/>
+              <el-input v-model="form.floor"/>
             </el-form-item>
             <el-form-item label="寝室房间">
-              <el-input v-model="form.name"/>
+              <el-input v-model="form.roomNum"/>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
@@ -118,111 +113,126 @@
   </el-container>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      filteredData: [], // 存储过滤后的数据
-      username: '熊初墨', // 用户名
-      searchName: '', // 搜索框内容
-      activeMenu: '3', // 当前激活的菜单项
-      dialogVisible: false,
-      tableData: [
-        {id: 1, name: '竹园', address: '四栋', phone: '四层', desc: 'B4403'},
-        // 更多数据...
-      ],
-      form: {
-        name: '',
-        region: '',
-        number1: '',
-        number2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-      pagination: {
-        currentPage: 1, // 当前页码
-        pageSize: 7, // 每页显示记录数
-        total: 100, // 总记录数
-      },
-      formLabelWidth: '100px', // 表单标签宽度
-    };
-  },
-  methods: {
-    limitToThreeDigits(value) {
-      if (this.form.number1 && this.form.number1.length > 3) {
-        this.form.number1 = this.form.number1.slice(0, 3);
-      }
-    },//限制位数
-    getData() {
-      // 使用 `filter` 方法来搜索 `tableData`，仅保留 `name` 中包含 `searchName` 的记录
-      this.filteredData = this.tableData.filter(item => item.name.includes(this.searchName));
-    },
-    resetFilters() {
-      this.searchName = '';
-      // 重置过滤后的数据为原始数据
-      this.filteredData = this.tableData;
-      console.log('重置搜索条件');
-    },
-    loadData() {
-      // 这里加载或初始化表格的所有数据
-      this.tableData = [
-        {id: 1, name: '软件学院', address: '图书馆2031', phone: '023-88968671', desc: '软件学院是一个以培养...'},
-        // 更多数据...
-      ];
-      // 初始化时，filteredData与tableData保持一致
-      this.filteredData = this.tableData;
-    },
-    // 其他方法保持不变
-    handleCreate() {
-      console.log('新增学院');
-      // 新增逻辑
-    },
-    handleeditor() {
-      this.dialogVisible = true; // 将弹窗显示状态设置为true
-      // 初始化表单数据
+<script setup>
+import {ref, onMounted} from 'vue';
+import axios from 'axios';
+import {ElMessage} from 'element-plus';
 
-    },
-    deleteUser(row) {
-      this.$confirm('此操作将永久删除该学院, 是否继续?', '提示', {
-        cancelButtonText: '取消',
-        confirmButtonText: '确定',
-        type: 'warning'
-      }).then(() => {
-        // 从 filteredData 或 tableData 中删除该行
-        this.filteredData = this.filteredData.filter(item => item.id !== row.id);
-        this.tableData = this.tableData.filter(item => item.id !== row.id);
+const searchName = ref('');
+const tableData = ref([]);
+const dialogVisible = ref(false);
+const editingDorm = ref(null);
+const form = ref({
+  buildingId: '',
+  floor: '',
+  roomNum: '',
+});
+const pagination = ref({
+  currentPage: 1,
+  pageSize: 20,
+  total: 0,
+});
 
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    },
-    handleSizeChange(val) {
-      this.pagination.pageSize = val;
-      this.getData();
-    },
-    handleCurrentChange(val) {
-      this.pagination.currentPage = val;
-      this.getData();
-    },
-    onSubmit() {
-      console.log('submit!')
-    },
-    submitEdit() {
-      console.log('提交编辑后的数据', this.form);
-      this.dialogVisible = false; // 关闭弹窗
-      // 提交逻辑
-    }
+const config = {
+  headers: {
+    'Authorization': localStorage.getItem('cqu-jwt')
   }
 };
+
+const fetchDormitoryData = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8080/admin/dormitory', config);
+
+    // 获取的数据
+    const dormitoryData = response.data.data;
+    console.log(response);
+    // 更新表格数据和分页信息
+    tableData.value = dormitoryData.slice(
+        (pagination.value.currentPage - 1) * pagination.value.pageSize,
+        pagination.value.currentPage * pagination.value.pageSize
+    );
+    pagination.value.total = dormitoryData.length;
+
+    ElMessage.success("成功获取宿舍信息");
+  } catch (error) {
+    console.error('获取数据失败:', error);
+    ElMessage.error("获取数据失败，请检查您的网络连接或稍后再试。");
+  }
+};
+const searchDormitory = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8080/admin/dormitory', config);
+    tableData.value = response.data.data.filter(dorm => dorm.buildingId.includes(searchName.value));
+    pagination.value.total = tableData.value.length;
+  } catch (error) {
+    console.error('搜索寝室失败:', error);
+    ElMessage.error("搜索寝室失败，请稍后再试。");
+  }
+};
+
+const handleCreate = () => {
+  editingDorm.value = null;
+  form.value = {buildingId: '', floor: '', roomNum: ''};
+  dialogVisible.value = true;
+};
+
+const handleEdit = (dorm) => {
+  editingDorm.value = dorm;
+  form.value = {...dorm};
+  dialogVisible.value = true;
+};
+
+const submitEdit = async () => {
+  try {
+    if (editingDorm.value) {
+      // 删除旧数据
+      await axios.delete('http://127.0.0.1:8080/admin/dormitory', {
+        data: {
+          buildingId: editingDorm.value.buildingId,
+          roomNum: editingDorm.value.roomNum
+        }, ...config
+      });
+    }
+    // 新增或更新数据
+    await axios.post('http://127.0.0.1:8080/admin/dormitory', form.value, config);
+    ElMessage.success('提交成功');
+    dialogVisible.value = false;
+    fetchDormitoryData(); // 重新加载数据
+  } catch (error) {
+    console.error('提交编辑/新增失败:', error);
+    ElMessage.error('提交失败，请稍后再试。');
+  }
+};
+
+const deleteDormitory = async (dorm) => {
+  try {
+    await axios.delete('http://127.0.0.1:8080/admin/dormitory', {
+      data: {
+        buildingId: dorm.buildingId,
+        roomNum: dorm.roomNum
+      }, ...config
+    });
+    ElMessage.success('删除成功');
+    fetchDormitoryData(); // 重新加载数据
+  } catch (error) {
+    console.error('删除寝室失败:', error);
+    ElMessage.error('删除失败，请稍后再试。');
+  }
+};
+
+const handleSizeChange = (val) => {
+  pagination.value.pageSize = val;
+  fetchDormitoryData();
+};
+
+const handleCurrentChange = (val) => {
+  pagination.value.currentPage = val;
+  fetchDormitoryData();
+};
+
+onMounted(() => {
+  fetchDormitoryData(); // 初始加载数据
+});
 </script>
 
 <style scoped>
@@ -231,7 +241,7 @@ export default {
 }
 
 .sidebar {
-  background-color: #ced9e3;
+  background-color: #82b4c2;
   color: navajowhite;
   height: 95%;
 }
@@ -269,11 +279,6 @@ export default {
 
 .box-card {
   margin-top: 20px;
-}
-</style>
 
-<style>
-.el-menu-vertical-demo {
-  color: white;
 }
 </style>

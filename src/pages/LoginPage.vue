@@ -28,7 +28,8 @@ function checkin() {
   //下面开始请求接口做登录校验
   try {
     console.log('正在请求登录接口')
-    axios.post('http://127.0.0.1:8080/login', {
+    let api = selectValue.value === '1' ? 'login' : 'admin'
+    axios.post(`http://127.0.0.1:8080/${api}`, {
       "email": emailAddress.value,
       "password": passWord.value,
     }).then((response) => {
@@ -38,11 +39,11 @@ function checkin() {
             localStorage.setItem('cqu-jwt', response.data.data)
 
 
-            //登录成功，现在默认跳转到学生端
-            if (selectValue.value === '1') {
-              ElMessage.success('登陆成功！')
+            if(selectValue.value==='1'){
+              ElMessage.success('登陆成功')
               return router.push('/StudentMenu')
             }
+
             if (selectValue.value === '2') {
               ElMessage.success('登陆成功！')
               return router.push('/TeacherMenu')

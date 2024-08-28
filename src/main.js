@@ -27,6 +27,7 @@ import StudentInfoPage from "@/pages/StudentInfoPage.vue";
 import TestPage from "@/TestPage.vue";
 import SearchCoursePage from "@/pages/SearchCoursePage.vue";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
+import TeacherInfoPage from "@/pages/TeacherInfoPage.vue";
 const routes = [
     {path: '/', component: CQU_student},
     {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
@@ -41,6 +42,7 @@ const routes = [
             {path: "selectCourse", component: SelectCoursePage},
             {path:'studentInfo',component: StudentInfoPage},
             {path:'SearchCourse',component: SearchCoursePage},
+            {path:'searchTeacherInfo',component: TeacherInfoPage},
             {
                 path: 'Accommodate',//转到宿舍页面
                 children: [
@@ -96,12 +98,13 @@ router.beforeEach(async (to, from) => {
         // 将用户重定向到登录页面
         if (!isAuthed && to.fullPath !== '') {
             ElMessage.error('登录已过期！请重新登录！')
-            return {fullPath: '/Login'}
+            return router.push('/Login')
         }
     } catch (error) {
         console.log(error)
         ElMessage.error('[路由导航] 服务器错误，请稍后再试')
         ElMessage.error('将为您跳转到登陆页面')
+        return router.push('/Login')
     }
 
 

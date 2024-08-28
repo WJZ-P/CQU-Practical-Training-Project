@@ -23,7 +23,7 @@ function goToAccommodation() {
 }
 //信息查询
 function goToMsgQuery() {
-  router.push('/StudentMenu/MsgQuery')
+  router.push('/StudentMenu/searchTeacherInfo')
 }
 
 function goToCourseQuery() {

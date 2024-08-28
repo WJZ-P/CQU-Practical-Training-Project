@@ -1,5 +1,5 @@
 <template>
-  <TeacherHeader title="选择您的宿舍"/>
+  <Header title="选择您的宿舍"/>
   <!--  最外层容器-->
   <div class="container">
     <!--创建四个容器各自存放梅兰竹菊四个园区-->
@@ -127,5 +127,7 @@ RouterLink {
 
 
 </style>
-<script setup lang="ts">
+<script setup>
+
+import Header from "@/components/Header.vue";
 </script>

@@ -15,7 +15,7 @@ localStorage.removeItem('cqu-jwt')
 </script>
 
 <template>
-  <div class="header">
+  <div class="header animate__animated animate__bounceInDown animate__fast">
     <ResponsiveEl :min-width=1300>
       <div class="logo">
         <img src="https://my.cqu.edu.cn/workspace/static/img/logo-workspace.1d5ca1b8.png" alt="重大校徽">

@@ -32,15 +32,21 @@ function created(){
   fetchData();
 }
 function fetchData(){
-  axios.post('http://127.0.0.1:8080/queryDorm',{category:"C"})
-      .then(response => {
-        console.log(response.data.data);
-        plumBuildings.value = response.data.data;
-      })
-      .catch(error => {
-        console.error('获取数据失败:', error);
-        ElMessage.error("获取数据失败，请检查您的网络连接或稍后再试。");
-      });
+  try {
+    const config = {
+      headers: {
+        'Authorization': localStorage.getItem('cqu-jwt')
+      }
+    }
+    axios.post(`http://127.0.0.1:8080/queryDorm`, {category:"A"}, config)
+    .then(response => {
+      console.log(response.data.data);
+      plumBuildings.value = response.data.data;
+    })
+  } catch(error) {
+    console.error('获取数据失败:', error);
+    ElMessage.error("获取数据失败，请检查您的网络连接或稍后再试。");
+  }
 }
 
 // 进入组件时加载数据

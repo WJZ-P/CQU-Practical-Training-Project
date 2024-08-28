@@ -1,10 +1,10 @@
 <script setup>
 import {onBeforeMount, ref} from "vue";
 import Section from "@/components/UtilsComponnet/Section.vue";
-// import Header from "@/components/Header.vue";
 import axios from "axios";
 import {ElMessage} from "element-plus";
 import "animate.css"
+import Header from "@/components/Header.vue";
 
 let selectedList = ref({major: [], commonSense: [], unLimited: []});//主修，通识，非限
 let obtainedOfficialCourseList = ref()
@@ -77,22 +77,6 @@ function handleUnLimitedSelectChange(value) {
   console.log(selectedList.value)
   courseChangeListener()
 }
-
-
-function setCSS() {
-  return {
-    color: "blue"
-  }
-}
-
-// function rowClassName({ row, rowIndex }) {
-//   // 设置某一行的颜色
-//   if (rowIndex === 0) {
-//     return 'first-row';
-//   }
-//   return '';
-// }
-
 
 async function submit(credit, jwt) {
   // 如果学分超出上限
@@ -176,7 +160,7 @@ async function getOfficialCourseInfo(jwt) {
 
 <template>
   <div style="display: flex;flex-direction: column;background-color: #e6effa;width: 100%;height: 100%">
-    <!--    <Header title="重庆大学在线选课系统"/>-->
+    <Header title="重庆大学在线选课系统"/>
     <div style="display: flex;justify-content: center;">
       <Section class="main-section">
         <div class="simulate-select-div">

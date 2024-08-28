@@ -7,6 +7,7 @@ import {onBeforeMount, ref} from "vue";
 import axios from "axios";
 import {ElMessage} from "element-plus";
 
+
 const courseContent =ref([])
 const searchParams = ref({
   currentPage: 1,
@@ -23,6 +24,121 @@ const paginationInfo = ref({
   currentPage: 1,
 })
 
+
+const exampleData=ref({
+  "id": "10000019038",
+  "name": "荷载与结构设计方法（英）",
+  "courseEnglishName": "Loads & Design Method of Structures",
+  "credit": "2",
+  "degree": "本科",
+  "subject": "*CE",
+  "number": "21119",
+  "codeR": "*CE21119",
+  "courseOutlineCategory": "理论类",
+  "practiceTypeId": null,
+  "departmentId": "114819092",
+  "departmentName": null,
+  "description": "<p>荷载与结构设计方法是土木工程专业学生必修的一门重要的专业基础课程，是学习后续课程钢筋混凝土基本原理、钢结构设计基本原理、结构动力学与抗震抗风设计、建筑钢结构、混凝土建筑结构、桥梁工程等专业课程及完成课程设计和毕业设计的基础。在培养学生利用可靠度设计理论进行结构和构件的设计方面占有重要的地位。本课程主要讲授结构可靠度设计基本原理、设计方法以及工程结构可能承受的各种作用产生的背景及其计算方法。通过本课程的课堂教学和实验教学环节，培养学生工程结构可靠度设计思想，能解释各类荷载产生的机理及影响因素，掌握荷载不同代表值的确定方法及结构可靠度设计方法，具备运用所学基本知识，确定复杂工程结构的荷载作用、判断和评价实际工程结构构件的安全性、耐久性、适用性和进行基于可靠度的结构构件设计的能力，支撑毕业要求中的相应指标点。<br/></p>",
+  "englishDescription": "<p>The course\nof Load and Structural Design Methods is an important foundational course for\ncivil engineering students. It is a prerequisite for studying subsequent\ncourses such as the basic principles of reinforced concrete, steel structure\ndesign, seismic design principles, building steel structures, concrete building\nstructures, bridge engineering, as well as completing course projects and\ngraduation designs. It plays a crucial role in training students to utilize\nreliability design theory for structural and component design.This course mainly covers the basic principles and\ndesign methods of structural reliability design, as well as the background and\ncalculation methods for various actions that engineering structures may bear.\nThrough classroom teaching and experimental instruction, this course aims to\ncultivate students' thinking in engineering structural reliability design. It\nenables students to explain the mechanisms and influencing factors behind\nvarious types of loads, grasp the methods for determining representative values\nof loads and the design methods for structural reliability, and possess the\nability to apply the acquired knowledge to determine the load effects of\ncomplex engineering structures, assess the safety, durability, and\napplicability of actual structural components, and perform reliability-based\nstructural component design. These abilities support the corresponding\nindicators in the graduation requirements.</p>",
+  "verOrder": null,
+  "verIndId": "3c9dfd77-cf4d-4ccb-975c-40060032c9d3",
+  "courseStatus": "已启用",
+  "teachObjectivesTaskReq": null,
+  "courseFormatVOList": [
+    {
+      "courseFormatCategoryId": "1000",
+      "courseFormatCateName": "理论为主课程",
+      "courseActivityList": [
+        {
+          "id": "97644",
+          "parentId": null,
+          "courseFormatId": "80643",
+          "activityTypeId": "17",
+          "activityTypeName": null,
+          "durationTypeId": "1002",
+          "durationTypeName": null,
+          "durationLength": 30,
+          "predictPersonCount": null,
+          "practiceTypeId": null,
+          "practiceTypeName": null,
+          "mainActivityFlag": "Y",
+          "activityOrder": "1",
+          "showOrder": "理论",
+          "courseActivityChildList": [
+            {
+              "id": "97645",
+              "parentId": "97644",
+              "courseFormatId": "80643",
+              "activityTypeId": "23",
+              "activityTypeName": null,
+              "durationTypeId": "1002",
+              "durationTypeName": null,
+              "durationLength": 4,
+              "predictPersonCount": null,
+              "practiceTypeId": null,
+              "practiceTypeName": null,
+              "mainActivityFlag": "N",
+              "activityOrder": "1-1",
+              "showOrder": "实验",
+              "courseActivityChildList": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "courseTeacherIdList": [],
+  "subjectCateName": null,
+  "moduleId": null,
+  "courseTagIdList": [],
+  "teachingMaterial": "待定",
+  "bibliography": null,
+  "teachingContent": null,
+  "teachingMethod": null,
+  "learningOutcomes": null,
+  "loToGraduate": null,
+  "loToEvaluate": null,
+  "courseContentTimeAllow": null,
+  "faceSchoolAllMajorFlag": "Y",
+  "faceMajorIdList": [],
+  "faceMajorVOList": [],
+  "politicalElement": null,
+  "prereqCourseIdList": [],
+  "reviewWay": null,
+  "assessmentsType": null,
+  "assessmentsTypeNote": null,
+  "courseSemester": null,
+  "feeDescription": null,
+  "courseConstructRecordList": [],
+  "authorIdList": [
+    "20171161037"
+  ],
+  "applyId": "12413",
+  "applyType": "课程新建",
+  "statusFlag": "通过",
+  "workFlowStatusId": "1003",
+  "workFlowStatus": "通过",
+  "applyContent": null,
+  "szFileList": [],
+  "otherFileList": [
+    {
+      "id": "116075",
+      "containerId": "10000019038",
+      "containerType": "CourseSupportingDocument",
+      "fileName": "荷载与结构设计方法（英）课程大纲 2021版ok (1).docx",
+      "fileSize": 47730,
+      "description": null,
+      "authorId": "20171161037",
+      "uploadTime": "2024-04-01T14:35:05",
+      "downloadCount": 28,
+      "nameSpace": "KR_CM",
+      "containerObjId": "b94b9d14-d065-4b02-b5e0-71aaf039d27b",
+      "objId": "977fcf84-ddea-49b7-92ff-d28e31d9f7de",
+      "previewAttachmentUrl": "http://172.20.216.42:9000/cpm/CourseSupportingDocument%2Fb94b9d14-d065-4b02-b5e0-71aaf039d27b.docx"
+    }
+  ],
+  "editFlag": false
+})
 //从学校官网获取课程信息
 function getCourseList() {
   const config = {

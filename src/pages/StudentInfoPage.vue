@@ -5,7 +5,6 @@ import {Check, Edit, Key, Location, Phone, School, UploadFilled, User} from "@el
 import {ElMessage} from "element-plus"
 import {useRouter} from "vue-router";
 import axios from "axios";
-import UploadComp from "@/components/uploadComp.vue";
 
 const router = useRouter()
 
@@ -429,18 +428,27 @@ onBeforeMount(() => {
 
 .el-icon--upload {
   display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0;
+  width: 50%;
+  height: 50%;
+  padding: 10px;
+  margin-top: 25px;
 }
 
 .el-upload-dragger {
   width: 100%;
   height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .el-form-item__content {
   display: flex;
   justify-content: center;
+}
+
+.upload-demo{
+  width: 100%;
 }
 </style>

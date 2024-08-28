@@ -6,162 +6,33 @@ import {ElMessage} from "element-plus";
 
 const selRoom=ref(["梅园一栋","1楼","101"])
 // 创建示例数据
-const plumBuildings = ref([
-  {
-    value: "梅园一栋",
-    label: "梅园一栋",
-    children: [
-        // 1楼
-      {
-        value: '1楼',
-        label: '1楼',
-        children: [
-          {
-            value:101,
-            label:101
-          },
-          {
-            value:102,
-            label:102
-          },
-          {
-            value:103,
-            label:103
-          }
-        ]
-      },
-
-      {
-        value: '2楼',
-        label: '2楼',
-        children: [
-          {
-            value:201,
-            label:201
-          },
-          {
-            value:202,
-            label:202
-          },
-          {
-            value:203,
-            label:203
-          }
-        ]
-      },
-
-      {
-        value: '3楼',
-        label: '3楼',
-        children: [
-          {
-            value:301,
-            label:301
-          },
-          {
-            value:302,
-            label:302
-          },
-          {
-            value:303,
-            label:303
-          }
-        ]
-
-      }
-    ]
-  },
-  {
-    value: "梅园二栋",
-    label: "梅园二栋",
-    children: [
-      // 1楼
-      {
-        value: '1楼',
-        label: '1楼',
-        children: [
-          {
-            value:101,
-            label:101
-          },
-          {
-            value:102,
-            label:102
-          },
-          {
-            value:103,
-            label:103
-          }
-        ]
-      },
-
-      {
-        value: '2楼',
-        label: '2楼',
-        children: [
-          {
-            value:201,
-            label:201
-          },
-          {
-            value:202,
-            label:202
-          },
-          {
-            value:203,
-            label:203
-          }
-        ]
-      },
-
-      {
-        value: '3楼',
-        label: '3楼',
-        children: [
-          {
-            value:301,
-            label:301
-          },
-          {
-            value:302,
-            label:302
-          },
-          {
-            value:303,
-            label:303
-          }
-        ]
-
-      }
-    ]
-  }
-  // 其他宿舍楼...
-]
-)
+const plumBuildings = ref([])
 
 const submitDorm = async () => {
   try {
+    const config = {
+      headers: {
+        'Authorization': localStorage.getItem('cqu-jwt')
+      }
+    }
     const response = await axios.post('http://127.0.0.1:8080/selectDorm', {
-      building_Id: selRoom.value[0],
+      buildingId: selRoom.value[0],
       floor: selRoom.value[1],
-      room_num: selRoom.value[2]
-    });
+      roomNum: selRoom.value[2]
+    },config);
     console.log(response.data);
-    ElMessage.success("已提交申请");
+    ElMessage.error(response.data.msg);
   } catch (error) {
     console.error("提交失败:", error);
-    if (error.response.status === 422) {
-      ElMessage.error("提交失败，你已经有宿舍了。");
-    }
-    else{
       ElMessage.error("提交失败，请检查您的网络连接或稍后再试。");
-    }
   }
 }
+
 // 在 created 生命周期钩子中获取数据
 function created(){
   fetchData();
 }
+
 function fetchData(){
   try {
     const config = {
@@ -173,6 +44,7 @@ function fetchData(){
     .then(response => {
       console.log(response.data.data);
       plumBuildings.value = response.data.data;
+      ElMessage.success("成功获取宿舍空房间信息");
     })
   } catch(error) {
     console.error('获取数据失败:', error);
@@ -237,6 +109,7 @@ onMounted(()=>{
 <style scoped>
 p {
   text-indent: 2em; /* 设置缩进距离为2个字母的宽度 */
+  font-size: 1vw;
 }
 
 .container{
@@ -254,12 +127,13 @@ p {
   clear: both;
   width: 60%;
   height: 50%;
-  overflow: hidden;
   padding: 20px;
   background-color: #f8f8f8;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   opacity: 0.9;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .buildings{

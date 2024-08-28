@@ -34,13 +34,21 @@ function checkin() {
     }).then((response) => {
           if (response.data?.msg === 'login success') {
             //登录成功后,把返回的jwt存到本地
-            console.log('[登录接口]'+'收到的jwt为'+response.data.data)
+            console.log('[登录接口]' + '收到的jwt为' + response.data.data)
             localStorage.setItem('cqu-jwt', response.data.data)
 
 
             //登录成功，现在默认跳转到学生端
-            ElMessage.success('登陆成功！')
-            return router.push('/StudentMenu')
+            if (selectValue.value === '1') {
+              ElMessage.success('登陆成功！')
+              return router.push('/StudentMenu')
+            }
+            if (selectValue.value === '2') {
+              ElMessage.success('登陆成功！')
+              return router.push('/TeacherMenu')
+            }
+
+
           }
 
           if (response.data?.msg === 'email not exist') {
@@ -139,17 +147,17 @@ function checkin() {
     </Section>
 
   </div>
-<!--  <Section>-->
-<!--    <div class="button-div">-->
-<!--      <RouterLink to="/TeacherMenu">-->
-<!--        <button class="custom-button">点我跳转到网页端</button>-->
-<!--      </RouterLink>-->
+  <!--  <Section>-->
+  <!--    <div class="button-div">-->
+  <!--      <RouterLink to="/TeacherMenu">-->
+  <!--        <button class="custom-button">点我跳转到网页端</button>-->
+  <!--      </RouterLink>-->
 
-<!--      <RouterLink to="/AndroidApp">-->
-<!--        <button class="custom-button">点我跳转到移动端</button>-->
-<!--      </RouterLink>-->
-<!--    </div>-->
-<!--  </Section>-->
+  <!--      <RouterLink to="/AndroidApp">-->
+  <!--        <button class="custom-button">点我跳转到移动端</button>-->
+  <!--      </RouterLink>-->
+  <!--    </div>-->
+  <!--  </Section>-->
 </template>
 
 

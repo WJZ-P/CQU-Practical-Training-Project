@@ -4,29 +4,30 @@ import {onMounted, ref} from "vue";
 import axios from "axios"
 import {ElMessage} from "element-plus";
 
-const selRoom=ref(["兰园一栋","1楼","101"])
+const selRoom=ref(["兰园一栋","一楼","101"])
 // 创建示例数据
 let plumBuildings = ref(null)
 
 const submitDorm = async () => {
   try {
+    const config = {
+      headers: {
+        'Authorization': localStorage.getItem('cqu-jwt')
+      }
+    }
     const response = await axios.post('http://127.0.0.1:8080/selectDorm', {
-      building_Id: selRoom.value[0],
+      buildingId: selRoom.value[0],
       floor: selRoom.value[1],
-      room_num: selRoom.value[2]
-    });
+      roomNum: selRoom.value[2]
+    },config);
     console.log(response.data);
-    ElMessage.success("已提交申请");
+    ElMessage.error(response.data.msg);
   } catch (error) {
     console.error("提交失败:", error);
-    if (error.response.status === 422) {
-      ElMessage.error("提交失败，你已经有宿舍了。");
-    }
-    else{
-      ElMessage.error("提交失败，请检查您的网络连接或稍后再试。");
-    }
+    ElMessage.error("提交失败，请检查您的网络连接或稍后再试。");
   }
 }
+
 // 在 created 生命周期钩子中获取数据
 function created(){
   fetchData();
@@ -38,10 +39,11 @@ function fetchData(){
         'Authorization': localStorage.getItem('cqu-jwt')
       }
     }
-    axios.post(`http://127.0.0.1:8080/queryDorm`, {category:"A"}, config)
+    axios.post(`http://127.0.0.1:8080/queryDorm`, {category:"B"}, config)
     .then(response => {
       console.log(response.data.data);
       plumBuildings.value = response.data.data;
+      ElMessage.success("成功获取宿舍空房间信息");
     })
   } catch(error) {
     console.error('获取数据失败:', error);
@@ -70,11 +72,12 @@ onMounted(()=>{
       </p><br/><p>
       驻足于其外，已然能窥得其建筑之美。欧式半圆落地窗整齐排列，屋内布置被白色窗帘掩映着，若在夜晚望去，还有明
       亮的灯光浮动沁出，驱散了寒冬的暗。
-      </p><br/>
+      </p><br/><p>
       步入书屋内，扑面而来的是温润书香，以及浓厚的读书氛围。蕙风斋目前藏书4700余册，藏书类型以文学、哲学、历史、
       地理类为主，还配有自助借还书系统。层层书本放置于木质书架上，书架镶于拱形镂空的白墙之中，白墙沿着深灰色阶梯
       错落有致地排开。书屋整体风格简约大气，“下晚自习之后来逛了一下，进去之后就呆住了，感觉像在宫殿里！”2020级化
       工学院的周同学这样形容。
+    </p>
     </div>
     <!--存放选择楼栋数据的大盒子-->
     <div class="buildings">
@@ -98,6 +101,7 @@ onMounted(()=>{
 <style scoped>
 p {
   text-indent: 2em; /* 设置缩进距离为2个字母的宽度 */
+  font-size: 1vw;
 }
 
 .container{
@@ -115,12 +119,13 @@ p {
   clear: both;
   width: 60%;
   height: 50%;
-  overflow: hidden;
   padding: 20px;
   background-color: #f8f8f8;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   opacity: 0.9;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .buildings{

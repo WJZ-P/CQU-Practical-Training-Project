@@ -2,10 +2,12 @@
 const props = defineProps({
   cardBackgroundColor: String//设置卡片的背景颜色
 })
+
+import "animate.css"
 </script>
 
 <template>
-  <div class="card-container">
+  <div class="card-container animate__animated animate__bounceIn">
     <div class="card">
       <!--  放插槽的地方-->
       <slot>这是默认内容，请传入内容哦!</slot>

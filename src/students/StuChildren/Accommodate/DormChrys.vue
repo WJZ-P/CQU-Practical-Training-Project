@@ -10,23 +10,24 @@ let plumBuildings = ref(null)
 
 const submitDorm = async () => {
   try {
+    const config = {
+      headers: {
+        'Authorization': localStorage.getItem('cqu-jwt')
+      }
+    }
     const response = await axios.post('http://127.0.0.1:8080/selectDorm', {
-      building_Id: selRoom.value[0],
+      buildingId: selRoom.value[0],
       floor: selRoom.value[1],
-      room_num: selRoom.value[2]
-    });
+      roomNum: selRoom.value[2]
+    },config);
     console.log(response.data);
-    ElMessage.success("已提交申请");
+    ElMessage.error(response.data.msg);
   } catch (error) {
     console.error("提交失败:", error);
-    if (error.response.status === 422) {
-      ElMessage.error("提交失败，你已经有宿舍了。");
-    }
-    else{
-      ElMessage.error("提交失败，请检查您的网络连接或稍后再试。");
-    }
+    ElMessage.error("提交失败，请检查您的网络连接或稍后再试。");
   }
 }
+
 // 在 created 生命周期钩子中获取数据
 function created(){
   fetchData();
@@ -38,10 +39,11 @@ function fetchData(){
         'Authorization': localStorage.getItem('cqu-jwt')
       }
     }
-    axios.post(`http://127.0.0.1:8080/queryDorm`, {category:"A"}, config)
+    axios.post(`http://127.0.0.1:8080/queryDorm`, {category:"D"}, config)
     .then(response => {
       console.log(response.data.data);
       plumBuildings.value = response.data.data;
+      ElMessage.success("成功获取宿舍空房间信息");
     })
   } catch(error) {
     console.error('获取数据失败:', error);
@@ -64,16 +66,17 @@ onMounted(()=>{
       <h2>菊园宿舍简介</h2>
       <br/>
       <p>
-        重庆大学虎溪校区的竹园宿舍区，专门为博士生提供了一个宁静而充满学术气息的居住环境。竹园宿舍坐落于风景优美的虎溪校区内，周围
+        重庆大学虎溪校区的菊园宿舍区，专门为博士生提供了一个宁静而充满学术气息的居住环境。竹园宿舍坐落于风景优美的虎溪校区内，周围
         被郁郁葱葱的竹林所环绕，既体现了中国传统园林之美，又为学子们提供了一个远离喧嚣的理想居所。博士生宿舍的设计充分考虑到了研究
         生阶段的特点，旨在为学术研究创造最适宜的条件。
       </p><br/><p>
       宿舍楼内部采用现代化装修风格，每间宿舍都配备了先进的设施，如高速互联网接入、独立卫浴、空调系统等，确保了居住的舒适性。宽敞明
       亮的居住空间不仅适合日常休息，也为博士生们提供了良好的个人工作区域，便于他们进行学术研究和个人项目的开发。
-    </p><br/>
-      除了基本的生活设施外，竹园宿舍区还设有专门的学习交流空间，如小型研讨室、图书角等，鼓励博士生之间的学术交流与合作。此外，宿舍
-      区内还配有健身房、洗衣房等生活设施，极大地便利了学生的日常生活。为了丰富博士生们的课余生活，竹园还定期举办各种文化活动和社会
+    </p><br/><p>
+      除了基本的生活设施外，菊园宿舍区还设有专门的学习交流空间，如小型研讨室、图书角等，鼓励博士生之间的学术交流与合作。此外，宿舍
+      区内还配有健身房、洗衣房等生活设施，极大地便利了学生的日常生活。为了丰富博士生们的课余生活，菊园还定期举办各种文化活动和社会
       实践活动，促进了学生之间的互动与交流。
+    </p>
     </div>
     <!--存放选择楼栋数据的大盒子-->
     <div class="buildings">
@@ -97,6 +100,7 @@ onMounted(()=>{
 <style scoped>
 p {
   text-indent: 2em; /* 设置缩进距离为2个字母的宽度 */
+  font-size: 1vw;
 }
 
 .container{
@@ -114,12 +118,13 @@ p {
   clear: both;
   width: 60%;
   height: 50%;
-  overflow: hidden;
   padding: 20px;
   background-color: #f8f8f8;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   opacity: 0.9;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .buildings{

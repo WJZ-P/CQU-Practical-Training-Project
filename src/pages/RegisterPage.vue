@@ -75,7 +75,7 @@ function submitForm() {
         console.log(response)
         if (response.data?.msg === 'success') {
           ElMessage.success('注册成功！')
-          router.push('/')//注册成功跳转到登陆页面
+          router.push('/Login')//注册成功跳转到登陆页面
         }
       })
 

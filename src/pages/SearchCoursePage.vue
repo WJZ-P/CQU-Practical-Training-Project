@@ -158,6 +158,9 @@ function getCourseList() {
     const data = (JSON.parse(response.data.data)).data
     console.log('下面为新获取的课程数据')
     console.log(data)
+    if(!data){
+      return ElMessage.error('您的token已过期！请重新录入！')
+    }
 
     //先修改下面翻页栏的相应信息
     paginationInfo.value.totalElements = data.totalElements

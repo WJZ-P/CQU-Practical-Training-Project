@@ -7,15 +7,11 @@ import {createRouter, createWebHistory} from "vue-router";
 import MainMenu from "@/Mobile/MainMenu.vue";
 import MainPage from "@/Mobile/MainPage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
-import TeacherMenu from "@/pages/TeacherMenu.vue";
+import TeacherMenu from "@/pages/BigScreenPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import FindPwdPage from "@/pages/FindPwdPage.vue";
 import CQU_student from "@/pages/StudentMenuPage.vue";
-import PersonalMsg from "@/students/StuChildren/PersonalMsg/PersonalMsg.vue";
-import MsgQuery from "@/students/StuChildren/MsgQuery/MsgQuery.vue";
-import CourseQuery from "@/students/StuChildren/CourseQuery/CourseQuery.vue";
 import Consult from "@/students/StuChildren/Consult/Consult.vue";
-import MobileLoginPage from "@/Mobile/MobileLoginPage.vue";
 import Dorm from "@/students/StuChildren/Accommodate/Dorm.vue";
 import DormPlum from "@/students/StuChildren/Accommodate/DormPlum.vue";
 import DormBamboo from "@/students/StuChildren/Accommodate/DormBamboo.vue";
@@ -28,9 +24,11 @@ import TestPage from "@/TestPage.vue";
 import SearchCoursePage from "@/pages/SearchCoursePage.vue";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import TeacherInfoPage from "@/pages/TeacherInfoPage.vue";
+import academicCalendarPage from "@/pages/academicCalendarPage.vue";
+import dashboardPage from "@/pages/DashboardPage.vue";
+import BigScreenPage from "@/pages/BigScreenPage.vue";
 const routes = [
     {path: '/', component: CQU_student},
-    {path: '/TeacherMenu', component: TeacherMenu}, //教师端主页
     {path: '/Register', component: RegisterPage},   //注册页面
     {path: '/Login', component: LoginPage},          //登陆页面
     {path: '/FindPassword', component: FindPwdPage},//找回密码页面
@@ -44,6 +42,7 @@ const routes = [
             {path:'SearchCourse',component: SearchCoursePage},
             {path:'searchTeacherInfo',component: TeacherInfoPage},
             {path:'consult',component: Consult},
+            {path:'academicCalendar',component: academicCalendarPage},
             {
                 path: 'Accommodate',//转到宿舍页面
                 children: [
@@ -57,16 +56,10 @@ const routes = [
         ]
     },
     {
-        path: '/students',//学生端页面
+        path: '/TeacherMenu',//教师端页面
         children: [
-            {path: '', component: MobileLoginPage},
-            {path: 'PersonalMsg', component: PersonalMsg},
-
-            {path: 'MsgQuery', component: MsgQuery},
-            {path: 'CourseQuery', component: CourseQuery},
-            {path: 'CourseRegister', component: CourseQuery},
-            {path: "Consult", component: Consult},
-            {path: 'MainPage', component: MainPage, children: [{path: '', component: MainMenu}]}
+            {path: "", component: dashboardPage},
+            {path:"bigScreen",component: BigScreenPage},
         ]
     }]
 

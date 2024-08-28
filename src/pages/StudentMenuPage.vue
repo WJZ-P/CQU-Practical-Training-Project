@@ -1,5 +1,5 @@
 <script setup>
-import calendar from '@/students/StuChildren/calendar.vue';     // 导入日历组件
+import calendar from '@/components/calendar.vue';     // 导入日历组件
 import imgurl1 from "@/students/StuChildren/picture/个人信息.svg";
 import imgurl2 from "@/students/StuChildren/picture/住宿安排.svg";
 import imgurl3 from "@/students/StuChildren/picture/信息查询.svg";
@@ -11,6 +11,7 @@ import {useRouter} from "vue-router";
 import Header from "@/components/Header.vue";
 import {onBeforeMount, ref} from "vue";
 import axios from "axios";
+import {ElMessage} from "element-plus";
 
 const router = useRouter()
 
@@ -72,7 +73,6 @@ const rotation = [
   }
   // 其他项类似...
 ]
-let showUploadModal = false
 
 const formData = ref({
   name: "",         //姓名
@@ -90,7 +90,36 @@ const formData = ref({
   imgString: ''       //图片
 })
 
+const warnings = ref({
+  dorm: '',
+  course: '',
+  account: ''
+});
+
+const fetchTaskData = async () => {
+  try {
+    const config = {
+      headers: {
+        'Authorization': localStorage.getItem('cqu-jwt')
+      }
+    };
+    const response = await axios.get(`http://127.0.0.1:8080/menu`, config);
+    const data = response.data.data;
+    warnings.value.dorm = data.selectDorm ? null : '您还没有选择宿舍';
+    warnings.value.course = data.selectCourse ? null : '您还没有注册课程';
+    warnings.value.account = data.suppleAccount ? null : '您还没有补充信息';
+
+    console.log("任务状态获取成功:", data);
+    ElMessage.success("成功获取任务状态信息");
+  } catch (error) {
+    console.error('获取任务状态失败:', error);
+    ElMessage.error("获取任务状态失败，请检查您的网络连接或稍后再试。");
+  }
+};
+
+
 onBeforeMount(() => {
+  fetchTaskData();//获取待办事项
   const myConfig = {
     headers: {
       'Authorization': localStorage.getItem('cqu-jwt')
@@ -117,12 +146,16 @@ onBeforeMount(() => {
         <div class="picture" style="font-size: 5vmin;  font-weight: bold;  align-items: center">
           <!--要和后端连接，根据上传照片与否决定是否显示，不显示就放个人形图-->
           <img :src="formData.imgString" alt="证件照"/>
-          <h5 style="text-align: center">{{formData.name}}同学<br>你好！</h5>
-
+          <div style="display: flex">
+            <h5 style="text-align: center">{{ formData.name }}同学<br>你好！</h5>
+          </div>
         </div>
         <div class="post">
-          <p style="font-size: 3vmin;text-align: left">校园一卡通余额:</p>
-          <p style="font-size: 5vmin;text-align: center">114.514元</p>
+          <p style="font-size: 2.5vmin;text-align: left">基本信息：</p>
+          <div>
+            <p style="font-size: 3vmin;text-align: center">学院：{{ formData.department }}</p>
+            <p style="font-size: 3vmin;text-align: center">学号：{{ formData.stuId }}</p>
+          </div>
         </div>
       </div>
       <div class="card">
@@ -141,7 +174,7 @@ onBeforeMount(() => {
           </div>
           <div class="function_split" style="background-color:#CCF783" @click="goToMsgQuery">
             <img :src="imgurl3" alt="个人信息图片"/>
-            <p>信息查询</p>
+            <p>教师查询</p>
           </div>
           <div class="function_split" style="background-color:#75F9FD;border-bottom-left-radius: 1vw"
                @click="goToCourseQuery">
@@ -165,8 +198,16 @@ onBeforeMount(() => {
         </div>
         <hr/>
         <!--和后端连接，根据该同学有哪些东西还没完成，填到待办区，没有就写您没有待办事项(图片)-->
-        <div>
-          您没有待办
+        <div class="task-reminders">
+          <div class="reminder-box" v-if="warnings.dorm">
+            <p>{{ warnings.dorm }}</p>
+          </div>
+          <div class="reminder-box" v-if="warnings.course">
+            <p>{{ warnings.course }}</p>
+          </div>
+          <div class="reminder-box" v-if="warnings.account">
+            <p>{{ warnings.account }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -200,11 +241,14 @@ onBeforeMount(() => {
       </div>
 
       <div class="Bottom_card2">
-        <div class="Bottom_Bar">
-          <p>日程安排</p>
-        </div>
-        <hr/>
-        <calendar/> <!-- 使用日历组件 -->
+        <RouterLink to="/StudentMenu/academicCalendar" style="text-decoration: none;color: black">
+          <div class="Bottom_Bar">
+            <p>日程安排</p>
+          </div>
+          <hr/>
+          <calendar/> <!-- 使用日历组件 -->
+
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -244,6 +288,8 @@ onBeforeMount(() => {
   border-radius: 1vw 1vw 1vw 1vw;
   opacity: 0.95 !important;
   transition: 0.2s ease-in-out;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     scale: 1.02;
@@ -372,16 +418,17 @@ onBeforeMount(() => {
 
 /* 添加悬停效果 */
 p:hover {
+  transition: 0.2s ease-in-out;
   color: white; /* 鼠标悬停时文本颜色变为白色 */
 }
 
 .picture {
   height: 46%;
-  width: 93%;
   background-color: #409eff;
   border-radius: 2vmin;
   margin: 1vmin 2vmin 1vmin 2vmin;
   display: flex; /* 使用 flex 布局 */
+  justify-content: space-around;
 }
 
 .picture img {
@@ -392,12 +439,12 @@ p:hover {
 
 .post {
   height: 33%;
-  width: 93%;
   background-color: #23C3A6;
   border-radius: 2vmin;
   margin: 1vmin 2vmin 1vmin 2vmin;
   text-align: center;
   font-size: 4vmin;
+  padding: 15px;
 }
 
 .function {
@@ -420,7 +467,6 @@ p:hover {
   border: 1vmin solid #ccc; /* 添加边框 */
   cursor: pointer;
   transition: 0.2s ease-in-out;
-  border-radius: ;
 
   &:hover {
     box-shadow: 0 0 20px #4e7cd3;
@@ -436,6 +482,28 @@ p:hover {
 .function_split img {
   width: 60%; /* 图片宽度为父容器的50% */
   height: auto; /* 自动保持原始宽高比 */
+}
+
+/*待办*/
+.task-reminders {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.reminder-box {
+  display: flex;
+  justify-content: center;
+  border: 3px solid #84d5e0;
+  font-size: 3.3vmin;
+  padding: 1vmin;
+  margin: 2vmin;
+  width: 90%;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 1vmin;
+  box-shadow: 0 0 5px #56cbd0;
 }
 
 a {

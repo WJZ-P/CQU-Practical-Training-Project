@@ -21,7 +21,7 @@ const submitDorm = async () => {
       roomNum: selRoom.value[2]
     },config);
     console.log(response.data);
-    ElMessage.error(response.data.msg);
+    ElMessage.success(response.data.msg);
   } catch (error) {
     console.error("提交失败:", error);
       ElMessage.error("提交失败，请检查您的网络连接或稍后再试。");

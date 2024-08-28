@@ -160,7 +160,9 @@ onBeforeMount(() => {
       </div>
       <div class="card">
         <div class="Top_Bar">
-          <p>功能集成</p>
+          <RouterLink to="/StudentMenu/msgQuery" style="text-decoration: none;color: black">
+            <p>功能集成</p>
+          </RouterLink>
         </div>
         <hr/>
         <div class="function">
@@ -213,6 +215,7 @@ onBeforeMount(() => {
     </div>
     <div class="Bottom_line animate__animated animate__backInUp">
       <div class="Bottom_card1">
+
         <div class="Bottom_Bar">
           <p>校园新闻</p>
         </div>
@@ -220,7 +223,7 @@ onBeforeMount(() => {
           <el-carousel-item v-for="item in rotation" :key="item.id">
             <div class="item">
               <div class="media">
-                <img :src="item.image" alt="描述文字">
+                <img class="news-img" :src="item.image" alt="描述文字">
               </div>
               <div class="content">
                 <div class="rdate">
@@ -508,5 +511,10 @@ p:hover {
 
 a {
   text-decoration: none;
+}
+
+.news-img{
+  width: 100%!important;
+  height: 100%;
 }
 </style>

@@ -220,7 +220,7 @@ export default {
       rotation: [
         {
           id: 1,
-          image:"/src/Mobile/students/StuChildren/picture/summer.jpg",
+          image:"/src/students/StuChildren/picture/summer.jpg",
           title: '重庆大学举办暑期实践活动',
           date: '2024-07-22',
           link: 'https://news.cqu.edu.cn/archives/news2/content/2024/07/22/530cf3bb5d9a0270a94b3e7b46f8a6a27c658cf4.html',
@@ -229,7 +229,7 @@ export default {
         },
         {
           id: 2,
-          image: "/src/Mobile/students/StuChildren/picture/搬迁.jpg",
+          image: "/src/students/StuChildren/picture/搬迁.jpg",
           title: '校园搬迁工作开展',
           date: '2024-07-15',
           link: 'https://news.cqu.edu.cn/archives/news2/content/2024/07/14/21167f311bd4768ed4d1eca9e961851b58d9eb01.html',
@@ -238,7 +238,7 @@ export default {
         },
         {
           id: 3,
-          image:"/src/Mobile/students/StuChildren/picture/international.jpg",
+          image:"/src/students/StuChildren/picture/international.jpg",
           title: '重庆大学举办国际见面会',
           date: '2024-07-09',
           link: 'https://news.cqu.edu.cn/archives/jhnews/content/2024/07/09/0e9090fb6ec431a21ea117d138c93b8393fc7bc2.html',
@@ -434,9 +434,10 @@ export default {
   height:30%;
   display:flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 .item {
-  display: inline-block; /* 使每个项在同一行显示 */
+  display: flex; /* 使每个项在同一行显示 */
   text-align: center; /* 文字居中对齐 */
   margin: 0 5vmin 1vmin 5vmin; /* 添加间距 */
 }
@@ -462,8 +463,8 @@ export default {
 /*news*/
 .bottom{
   width:100%;
-  height:80%;
-  margin-top: 1vmin;
+  height:70%;
+  margin-top: 20vmin;
   display:flex;
   justify-content: space-between;
   transform: translateX(-100%); /* 开始时隐藏在左侧 */
@@ -476,9 +477,9 @@ export default {
 
 .news{
   width:60%;
-  height:80%;
+  height:75%;
   border-radius: 5vmin;
-  margin-top: 2vmin;
+  margin-top: 0vmin;
   align-items: center;
 }
 .news  ul {
@@ -494,12 +495,13 @@ export default {
 }
 .newpic {
   flex-direction: row; /* 默认为横向排列 */
-  width: 90%; /* 占据整个宽度 */
-  height:90%;
+  width: 100.5%; /* 占据整个宽度 */
+  height:98%;
   background-size: auto;
   margin-bottom: 5vmin;
   border: 2vmin solid #E99D42;
   background-color: lightyellow;
+  margin-top: -25px;
 }
 
 a:link{color:black;}
@@ -554,7 +556,7 @@ a:active {color:black;}  /* 鼠标点击时 */
 /*信息*/
 .m1{
   width: 100%;
-  height:48%;
+  height:40%;
   border-radius: 5vmin;
   margin-bottom: 3vmin;
   background-size: cover; /* 调整图片大小以覆盖整个容器 */
@@ -584,6 +586,10 @@ a:active {color:black;}  /* 鼠标点击时 */
   font-family: 'Noto Sans SC', sans-serif;
   font-size: 3vmin;
   color:aliceblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 }
 a {
   text-decoration: none;

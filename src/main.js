@@ -24,6 +24,7 @@ import TeacherInfoPage from "@/pages/TeacherInfoPage.vue";
 import academicCalendarPage from "@/pages/academicCalendarPage.vue";
 import dashboardPage from "@/pages/DashboardPage.vue";
 import BigScreenPage from "@/pages/BigScreenPage.vue";
+import MsgQuery from "@/students/StuChildren/MsgQuery/MsgQuery.vue";
 const routes = [
     {path: '/', component: CQU_student},
     {path: '/Register', component: RegisterPage},   //注册页面
@@ -40,6 +41,7 @@ const routes = [
             {path:'searchTeacherInfo',component: TeacherInfoPage},
             {path:'consult',component: Consult},
             {path:'academicCalendar',component: academicCalendarPage},
+            {path:'msgQuery',component: MsgQuery},
             {
                 path: 'Accommodate',//转到宿舍页面
                 children: [
@@ -67,7 +69,7 @@ const router = createRouter({//这里创建了一个路由
 
 //创建全局前置守卫
 router.beforeEach(async (to, from) => {
-    if (to.fullPath === '/Register' || to.fullPath === '/Login' || '/teacherMenu') {
+    if (to.fullPath === '/Register' || to.fullPath === '/Login' || to.fullPath ==='/teacherMenu') {
         console.log('[路由导航]' + '访问的是注册页或登录页，直接允许跳转')
         return true
     }

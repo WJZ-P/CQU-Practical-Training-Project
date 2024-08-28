@@ -166,7 +166,7 @@ export default {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed; /* 固定列宽 */
-  height: fit-content;
+  height: 100%;
 }
 
 .header {

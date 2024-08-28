@@ -444,7 +444,7 @@ onBeforeMount(() => {
   align-items: center;
   flex-wrap: wrap;
   padding: 15px;
-  max-height: 1000px;
+  max-height: 1050px;
   overflow: auto;
 }
 

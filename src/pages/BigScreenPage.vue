@@ -72,7 +72,7 @@ onMounted(() => {
           </Card>
 
           <!--          导入饼状图-->
-          <Card style="width: 100%;height: 350px;">
+          <Card style="width: 100%;height: 450px;">
             <PieChart/>
           </Card>
 
@@ -110,7 +110,7 @@ onMounted(() => {
             </div>
           </Card>
 
-          <Card style="width: 100%;height: 350px;">
+          <Card style="width: 100%;height: 450px;">
             <BarChart/>
           </Card>
         </Section>
@@ -120,7 +120,7 @@ onMounted(() => {
     <!--    下面是第二部分,一个大型的折线统计图-->
     <div class="part3">
       <Section>
-        <Card style="width:100%; height: 400px">
+        <Card style="width:100%; height: 500px">
           <LineChart/>
         </Card>
       </Section>
@@ -160,7 +160,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 80%;
+  height: 100%;
   padding: 0;
   margin: 0;
 }

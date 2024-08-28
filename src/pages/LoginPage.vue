@@ -39,7 +39,7 @@ function checkin() {
             localStorage.setItem('cqu-jwt', response.data.data)
 
 
-            if(selectValue.value==='1'){
+            if (selectValue.value === '1') {
               ElMessage.success('登陆成功')
               return router.push('/StudentMenu')
             }
@@ -88,15 +88,17 @@ function checkin() {
           <br>
 
           <div class="left-content">
-            <h3>1、欢迎来到重庆大学新生报道平台！</h3>
+            <h2>1、欢迎来到重庆大学新生报道平台！</h2>
             <br>
-            <h3>2、新用户请点击右侧立即注册以注册账号。</h3>
             <br>
-            <h3>3、忘记账号，请点击“找回密码”。</h3>
+            <h2>2、新用户请点击右侧立即注册以注册账号。</h2>
             <br>
-            <h3>4、安全起见，请不要向任何人透露自己的账号密码！</h3>
             <br>
-            <h3>5、祝您使用愉快！</h3>
+            <h2>3、忘记账号，请点击“找回密码”。</h2>
+            <br><br>
+            <h2>4、安全起见，请不要向任何人透露自己的账号密码！</h2>
+            <br><br>
+            <h2>5、祝您使用愉快！</h2>
             <br>
           </div>
         </Section>
@@ -109,13 +111,13 @@ function checkin() {
               <el-icon size="35px">
                 <Avatar/>
               </el-icon>
-              <el-input class="input" v-model="emailAddress" placeholder="请输入邮箱"  size="large"></el-input>
+              <el-input class="input" v-model="emailAddress" placeholder="请输入邮箱" size="large"></el-input>
             </div>
             <div class="input-div">
               <el-icon size="35px">
                 <Lock/>
               </el-icon>
-              <el-input class="input" v-model="passWord" placeholder="请输入密码"  type="password"
+              <el-input class="input" v-model="passWord" placeholder="请输入密码" type="password"
                         size="large"></el-input>
             </div>
             <div style="width: 100%;display: flex;justify-content: center">
@@ -204,9 +206,9 @@ function checkin() {
 /*左侧的提示框 */
 .login-section-left {
   margin-right: 50px;
-  height: fit-content;
+  height: 80%;
   opacity: 0.8 !important;
-  width: 50%;
+  width: 55%;
   padding: 10px;
   display: flex;
   flex-wrap: wrap;

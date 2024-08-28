@@ -2,7 +2,9 @@
 
 import Header from "@/components/Header.vue";
 import Section from "@/components/UtilsComponnet/Section.vue";
-import {ref} from "vue";
+import {onBeforeMount, ref} from "vue";
+import axios from "axios";
+import {Search} from "@element-plus/icons-vue";
 
 const teacherData = ref([
   {
@@ -277,41 +279,86 @@ const teacherData = ref([
   }
 ])
 
+const searchParams=ref({
+  name:''
+})
+const paginationInfo = ref({
+  totalnum: 973,
+  totalpage: 98,
+  currentPage: 1
+})
 const srcPrefix = "https://faculty.cqu.edu.cn"
+
+function getTeachersList() {
+  const config = {
+    headers: {'Authorization': localStorage.getItem('cqu-jwt')}
+  }
+  axios.post('http://127.0.0.1:8080/teacher', {
+    name: searchParams.value.name,
+  }, config).then(res => {
+  console.log(res)
+  })
+}
+
+
+function changePage() {
+
+}
+
+onBeforeMount(()=>{
+  getTeachersList()
+})
 </script>
 
 <template>
   <Header title="重庆大学教师信息查询中心"/>
   <div class="main">
     <Section class="search-section">
-      我我是
+      <div class="input-div">
+          <h3>教师名称：</h3>
+          <el-input v-model="searchParams.name" size="large"
+                    clearable placeholder="姓名" autosize style="width: 200px"/>
+        </div>
+      <div class="select-div">
+          <el-button type="primary" size="large" @click="getTeachersList">
+            <el-icon size="20">
+              <Search/>
+            </el-icon>
+            <h2>搜索</h2>
+          </el-button>
+        </div>
     </Section>
     <Section class="info-section">
 
       <template v-for="teacherInfo in teacherData" class="card-template">
         <el-card class="card">
-          <img :src="srcPrefix+teacherInfo.picUrl" alt="教师照片" style="max-height: 250px">
+          <a :href="teacherInfo.url">
+            <img class="avatar-img" :src="srcPrefix+teacherInfo.picUrl" alt="教师照片">
+          </a>
           <h2 style="text-align: center;color: #13559a">{{ teacherInfo.name }}</h2>
+          <h3 style="text-align: center;color: #4d5054;margin-top: 10px;margin-bottom: -15px">
+            职称：{{ teacherInfo.prorank ? teacherInfo.prorank : '暂无' }}</h3>
+
         </el-card>
       </template>
 
+      <!--      分页组件-->
     </Section>
-
-
-    <!--      分页组件-->
-    <div class="pagination-div">
-      <Section class="pagination">
-        <el-pagination/>
-        <!--              v-model:current-page="paginationInfo.currentPage"-->
-        <!--              :page-size="searchParams.pageSize"-->
-        <!--              :size="'large'"-->
-        <!--              :background="true"-->
-        <!--              layout="total, prev, pager, next, jumper"-->
-        <!--              :total="paginationInfo.totalElements"-->
-        <!--              @current-change="changePage"-->
-
-      </Section>
-    </div>
+    <Section style="margin-top: 15px;border-radius: 50px;width:70%;padding: 5px">
+      <div class="pagination-div">
+        <Section class="pagination">
+          <el-pagination
+              v-model:current-page="paginationInfo.currentPage"
+              :page-size="10"
+              :size="'large'"
+              :background="true"
+              layout="total, prev, pager, next, jumper"
+              :total="paginationInfo.totalnum"
+              @current-change="changePage"
+          />
+        </Section>
+      </div>
+    </Section>
   </div>
 </template>
 
@@ -327,16 +374,17 @@ const srcPrefix = "https://faculty.cqu.edu.cn"
 }
 
 .search-section {
-  padding: 10px;
+  padding: 5px 25px 5px 25px;
   background-color: #dce1ea;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 70px;
 }
 
 .info-section {
   width: 100%;
-  height: 100%;
+  height: fit-content;
   margin-top: 10px;
   display: flex;
   justify-content: center;
@@ -361,5 +409,53 @@ const srcPrefix = "https://faculty.cqu.edu.cn"
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: 0.25s ease-in-out;
+
+  &:hover {
+    scale: 1.1;
+    box-shadow: 0 0 3px #5ac5d7;
+  }
+}
+
+.avatar-img {
+  max-height: 250px;
+  width: fit-content;
+  transition: 0.25s ease-in-out;
+
+  &:hover {
+    scale: 1.05;
+
+  }
+}
+
+.pagination {
+  width: fit-content;
+  padding: 10px;
+  justify-content: center;
+  display: flex;
+  margin-top: 10px;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* 浅蓝色阴影 */
+  transition: 0.25s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(5, 116, 234, 0.3); /* 浅蓝色阴影 */
+    scale: 1.05;
+  }
+}
+
+.input-div {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.select-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

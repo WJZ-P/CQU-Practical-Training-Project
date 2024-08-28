@@ -146,6 +146,7 @@ function getCourseList() {
       'Authorization': localStorage.getItem('cqu-jwt')
     }
   }
+  try{
   axios.post('http://127.0.0.1:8080/course/search', {
     currentPage: searchParams.value.currentPage,
     pageSize: searchParams.value.pageSize,
@@ -166,6 +167,10 @@ function getCourseList() {
     courseContent.value=data.content
     ElMessage.success('数据加载成功！')
   })
+    }catch (e){
+    console.log(e)
+    ElMessage.error('token已过期，请重新录入！')
+  }
 }
 
 //转到新的页面

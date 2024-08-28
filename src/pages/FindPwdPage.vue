@@ -3,17 +3,21 @@ import Section from "@/components/UtilsComponnet/Section.vue";
 import {reactive, ref} from "vue";
 import {DocumentChecked, Key, Message, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus"
+import axios from "axios";
+import {useRouter} from "vue-router";
 
 const backEndCaptcha = ref('')//后端返回的验证码
 
-const formData = reactive({
+const formData = ref({
   emailAddress: '',
-  newPwd:'',
+  newPwd: '',
   captcha: '',
 })
 
-const formRef = ref(null)
+const config={headers:{"Authorization":localStorage.getItem('cqu-jwt')}}
 
+const formRef = ref(null)
+const router=useRouter()
 
 const rules = {
   emailAddress: [{
@@ -30,7 +34,7 @@ const rules = {
     message: '请输入验证码',
     trigger: 'blur'
   }],
-  pwd:[{
+  newPwd: [{
     required: true,
     message: '请输入密码',
     trigger: 'blur'
@@ -43,22 +47,26 @@ function submitForm() {
   formRef.value.validate((valid) => {
     if (valid) {//valid了说明表单校验通过
       console.log('表单校验通过！')
-      const encryptedPwd = CryptoJS.MD5(formData.newPwd).toString()
-      //调用后端接口校验验证码
 
-      if (formData.captcha === backEndCaptcha.value) {
-        //调用后端接口注册用户,等待实现
-        //axios.post('/register', formData).then(res => {
-
-        ElMessage.success('注册成功！')
-      }
+      axios.put('http://127.0.0.1:8080/changePassWord', {
+        email: formData.value.emailAddress,
+        password: formData.value.newPwd,
+        captcha: formData.value.captcha,
+      },config).then(res =>{
+        ElMessage.success("密码修改成功！")
+        router.push('/Login')
+      })
     }
   })
 }
 
 function sendEmail() {
   //调用后端接口发送邮箱验证码
-  ElMessage.success('一封注册邮件已发送至您的邮箱，请输入邮箱内的验证码！')
+  axios.post("http://127.0.0.1:8080/changePassWord", {
+    email: formData.value.emailAddress
+  },config).then(res => {
+    ElMessage.success('邮件已发送至您的邮箱，请输入邮箱内的验证码！')
+  })
 }
 </script>
 
@@ -84,7 +92,7 @@ function sendEmail() {
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入新密码" label-position="top" size="large" prop="pwd">
+              <el-form-item label="请输入新密码" label-position="top" size="large" prop="newPwd">
                 <el-input v-model="formData.newPwd" placeholder="密码" show-password>
                   <template #prefix>
                     <el-icon size="large">

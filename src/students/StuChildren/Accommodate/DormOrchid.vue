@@ -124,7 +124,7 @@ p {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   opacity: 0.9;
-  overflow: scroll;
+  overflow: auto;
   overflow-x: hidden;
 }
 

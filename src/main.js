@@ -4,10 +4,7 @@ import App from './App.vue'
 import ElementPlus, {ElMessage} from 'element-plus'
 import 'element-plus/dist/index.css'
 import {createRouter, createWebHistory} from "vue-router";
-import MainMenu from "@/Mobile/MainMenu.vue";
-import MainPage from "@/Mobile/MainPage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
-import TeacherMenu from "@/pages/BigScreenPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import FindPwdPage from "@/pages/FindPwdPage.vue";
 import CQU_student from "@/pages/StudentMenuPage.vue";

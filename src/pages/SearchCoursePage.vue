@@ -307,6 +307,12 @@ onBeforeMount(() => {
           <el-table :data="courseContent" stripe size="large"
                     max-height="900" table-layout="auto" border style="width: 100%">
 
+            <el-table-column class-name="expand-col" lable="点击展开" width="50" fixed type="expand">
+              <template>
+                嘻嘻哈哈
+              </template>
+            </el-table-column>
+
             <el-table-column class-name="first-col" label="课程名称" prop="name" width="300" fixed/>
             <el-table-column class-name="eng-col" label="课程英文名称" prop="engName" width="400"/>
             <el-table-column class-name="second-col" label="课程代码" prop="code" width="140"/>

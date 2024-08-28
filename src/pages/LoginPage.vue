@@ -109,13 +109,13 @@ function checkin() {
               <el-icon size="35px">
                 <Avatar/>
               </el-icon>
-              <el-input class="input" v-model="emailAddress" placeholder="请输入邮箱" clearable size="large"></el-input>
+              <el-input class="input" v-model="emailAddress" placeholder="请输入邮箱"  size="large"></el-input>
             </div>
             <div class="input-div">
               <el-icon size="35px">
                 <Lock/>
               </el-icon>
-              <el-input class="input" v-model="passWord" placeholder="请输入密码" clearable type="password"
+              <el-input class="input" v-model="passWord" placeholder="请输入密码"  type="password"
                         size="large"></el-input>
             </div>
             <div style="width: 100%;display: flex;justify-content: center">
@@ -148,17 +148,6 @@ function checkin() {
     </Section>
 
   </div>
-  <!--  <Section>-->
-  <!--    <div class="button-div">-->
-  <!--      <RouterLink to="/TeacherMenu">-->
-  <!--        <button class="custom-button">点我跳转到网页端</button>-->
-  <!--      </RouterLink>-->
-
-  <!--      <RouterLink to="/AndroidApp">-->
-  <!--        <button class="custom-button">点我跳转到移动端</button>-->
-  <!--      </RouterLink>-->
-  <!--    </div>-->
-  <!--  </Section>-->
 </template>
 
 

@@ -231,7 +231,7 @@ onBeforeMount(() => {
                 </el-upload>
               </el-form-item>
               <el-form-item label="请输入姓名" prop="name">
-                <el-input v-model="formData.name" placeholder="姓名">
+                <el-input v-model="formData.name" placeholder="姓名" size="large">
                   <template #prefix>
                     <el-icon>
                       <User/>
@@ -241,7 +241,7 @@ onBeforeMount(() => {
               </el-form-item>
 
               <el-form-item label="请输入学号" prop="stuId">
-                <el-input v-model="formData.stuId" placeholder="学号">
+                <el-input v-model="formData.stuId" placeholder="学号" size="large">
                   <template #prefix>
                     <el-icon size="large">
                       <Edit/>
@@ -250,7 +250,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入学院" prop="department">
-                <el-input v-model="formData.department" placeholder="学院">
+                <el-input v-model="formData.department" placeholder="学院" size="large">
                   <template #prefix>
                     <el-icon>
                       <School/>
@@ -259,7 +259,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入专业" prop="major">
-                <el-input v-model="formData.major" placeholder="专业">
+                <el-input v-model="formData.major" placeholder="专业" size="large">
                   <template #prefix>
                     <el-icon>
                       <img src="../assets/icons/school_24dp_5F6368_FILL0_wght200_GRAD-25_opsz40.svg" alt=""/>
@@ -268,7 +268,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入班级" prop="classes">
-                <el-input v-model="formData.classes" placeholder="班级">
+                <el-input v-model="formData.classes" placeholder="班级" size="large">
                   <template #prefix>
                     <el-icon>
                       <img src="../assets/icons/stacks_24dp_A7A9B0_FILL0_wght200_GRAD-25_opsz24.svg" alt="">
@@ -278,7 +278,7 @@ onBeforeMount(() => {
               </el-form-item>
 
               <el-form-item label="请输入身份证号" prop="id">
-                <el-input v-model="formData.id" placeholder="身份证号" show-password>
+                <el-input v-model="formData.id" placeholder="身份证号" show-password size="large">
                   <template #prefix>
                     <el-icon>
                       <img src="../assets/icons/fingerprint_24dp_A7A9B0_FILL0_wght200_GRAD-25_opsz24.svg" alt="">
@@ -287,7 +287,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入民族" prop="nation">
-                <el-input v-model="formData.nation" placeholder="民族">
+                <el-input v-model="formData.nation" placeholder="民族" size="large">
                   <template #prefix>
                     <el-icon>
                       <img src="../assets/icons/diversity_1_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
@@ -296,7 +296,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入家庭住址" prop="address">
-                <el-input v-model="formData.address" placeholder="家庭住址">
+                <el-input v-model="formData.address" placeholder="家庭住址" size="large">
                   <template #prefix>
                     <el-icon>
                       <Location/>
@@ -305,7 +305,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入电话号码" prop="phoneNumber">
-                <el-input v-model="formData.phoneNumber" placeholder="电话号码" show-password>
+                <el-input v-model="formData.phoneNumber" placeholder="电话号码" show-password size="large">
                   <template #prefix>
                     <el-icon>
                       <Phone/>
@@ -314,7 +314,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入邮箱" prop="email">
-                <el-input v-model="formData.email" placeholder="邮箱">
+                <el-input v-model="formData.email" placeholder="邮箱" size="large">
                   <template #prefix>
                     <el-icon>
                       <img src="../assets/icons/mail_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
@@ -323,7 +323,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="修改密码" prop="stuPassword">
-                <el-input v-model="formData.stuPassword" placeholder="新密码" show-password>
+                <el-input v-model="formData.stuPassword" placeholder="新密码" show-password size="large">
                   <template #prefix>
                     <el-icon>
                       <Key/>
@@ -332,7 +332,7 @@ onBeforeMount(() => {
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入token" prop="token">
-                <el-input v-model="formData.token" placeholder="填写学校官网获取的token" show-password>
+                <el-input v-model="formData.token" placeholder="填写学校官网获取的token" show-password size="large">
                   <template #prefix>
                     <el-icon>
                       <img src="../assets/icons/encrypted_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
@@ -368,7 +368,7 @@ onBeforeMount(() => {
 .register-div {
   display: flex;
   width: 30%;
-  height: 50%;
+  height: 100%;
   align-items: center;
 
 }
@@ -380,6 +380,8 @@ onBeforeMount(() => {
   padding: 20px;
   opacity: 0.95 !important;
   overflow: hidden;
+  height: fit-content;
+  justify-content: start;
 }
 
 .register-text {
@@ -450,5 +452,9 @@ onBeforeMount(() => {
 
 .upload-demo{
   width: 100%;
+}
+
+.el-form-item{
+  margin:15px 0 15px 0;
 }
 </style>

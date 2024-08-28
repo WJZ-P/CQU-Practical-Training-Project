@@ -5,6 +5,7 @@ import {Check, Edit, Key, Location, Phone, School, User} from "@element-plus/ico
 import {ElMessage} from "element-plus"
 import {useRouter} from "vue-router";
 import axios from "axios";
+import UploadComp from "@/components/uploadComp.vue";
 
 const router = useRouter()
 
@@ -20,7 +21,8 @@ const formData = ref({
   phoneNumber: "",  //电话号码
   email: "",        //邮箱，自动传入，不应该修改
   stuPassword: "",  //账号的密码
-  token: ""         //学校方面的token
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQ4MjYwMTcsInVzZXJfbmFtZSI6IjMwMDQzNjQ3IiwiYXV0aG9yaXRpZXMiOlsi5a2m55SfJktSX1RUIl0sImp0aSI6IjZhZWQ5NjZiLWUwZjItNDFkNS04MDQ0LWM0ZTMzMTIwNTc0ZCIsImNsaWVudF9pZCI6InBlcnNvbmFsLXByb2QiLCJzY29wZSI6WyJhbGwiXX0.o7kmz1V_p64yfUYd-hTRS_nHoQiUiuL1HIj4qqBxfyI" ,        //学校方面的token
+  imgString:''       //图片
 })
 
 const formRef = ref(null)//保存用户存入的数据
@@ -31,6 +33,7 @@ const formRef = ref(null)//保存用户存入的数据
 //     pattern: 这里写正则表达式
 //   }
 const rules = {
+
   name: [{
     required: true,
     message: '请输入姓名',
@@ -123,17 +126,69 @@ function submitForm() {
   })
 }
 
-onBeforeMount(() => {
-  const myConfig = {
-    headers: {
-      'Authorization': localStorage.getItem('cqu-jwt')
-    }
-  }
-  axios.get('http://127.0.0.1:8080/queryAccount', myConfig).then(res => {
-    console.log(res.data.data)
-    formData.value=res.data.data
+function setup() {
+  const selectedFile = ref(null);  // 存储选择的文件
+  const imgUrl = ref('');  // 用于存储上传后的图片URL
+
+  // 处理文件选择
+  const onFileChange = (event) => {
+    selectedFile.value = event.target.files[0]; // 获取选择的文件
+  };
+
+
+  const service = axios.create({
+    baseURL: "/image"
   })
-})
+
+  service.interceptors.response.use(response => {
+    const code = response.data.code || 200
+    if (code === 200) {
+      return response.data.data
+    }
+
+    let msg = response.data.code + " " + response.data.msg
+    ElMessage.error(msg)
+
+    return Promise.reject('上传图片失败：' + msg)
+  })
+}
+  /**
+   * 上传图片
+   * @param {File} file 图片文件
+   * @param {RefImpl} progress 上传进度
+   * @returns promise
+   */
+  function uploadImage(file, progress) {
+    let formData = new FormData();
+    formData.append("file", file)
+    return service({
+      url: "/upload",
+      method: "post",
+      data: formData,
+      onUploadProgress(event) {
+        let v = Math.round(event.loaded / event.total * 100)
+        progress.value = v == 100 ? 80 : v
+      },
+
+    })
+  }
+
+
+
+  onBeforeMount(() => {
+    const myConfig = {
+      headers: {
+        'Authorization': localStorage.getItem('cqu-jwt')
+      }
+    }
+    axios.get('http://127.0.0.1:8080/queryAccount', myConfig).then(res => {
+      console.log(res.data.data)
+      formData.value = res.data.data
+    })
+  })
+
+
+
 </script>
 
 <template>
@@ -148,6 +203,10 @@ onBeforeMount(() => {
           <div class="form-class">
             <el-form :model="formData" ref="formRef" :rules="rules"
                      status-icon label-width="auto">
+              <el-form-item label="请上传图片" prop="imgString">
+
+                <upload-comp/>
+              </el-form-item>
               <el-form-item label="请输入姓名" prop="name">
                 <el-input v-model="formData.name" placeholder="姓名" >
                   <template #prefix>
@@ -157,6 +216,7 @@ onBeforeMount(() => {
                   </template>
                 </el-input>
               </el-form-item>
+
               <el-form-item label="请输入学号"  prop="stuId">
                 <el-input v-model="formData.stuId" placeholder="学号">
                   <template #prefix>
@@ -331,5 +391,8 @@ onBeforeMount(() => {
   align-content: center;
 }
 
-
+* {
+  margin: 2px;
+  box-sizing: border-box;
+}
 </style>

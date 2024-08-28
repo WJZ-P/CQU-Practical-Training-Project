@@ -201,18 +201,22 @@ function handleCommand(command) {
     }
     case '10': {
       searchParams.value.pageSize = 10
+      getCourseList()
       break
     }
     case '20': {
       searchParams.value.pageSize = 20
+      getCourseList()
       break
     }
     case '50': {
       searchParams.value.pageSize = 50
+      getCourseList()
       break
     }
     case '100': {
       searchParams.value.pageSize = 100
+      getCourseList()
       break
     }
   }

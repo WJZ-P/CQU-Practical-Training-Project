@@ -4,9 +4,10 @@ import Header from "@/components/Header.vue";
 import Section from "@/components/UtilsComponnet/Section.vue";
 import {onBeforeMount, ref} from "vue";
 import axios from "axios";
-import {Search} from "@element-plus/icons-vue";
+import {ArrowDown, Search} from "@element-plus/icons-vue";
+import {ElMessage} from "element-plus";
 
-const teacherData = ref([
+const myTeacherData = ref([
   {
     "uid": 13432,
     "teacherId": 13310,
@@ -279,58 +280,114 @@ const teacherData = ref([
   }
 ])
 
-const searchParams=ref({
-  name:''
+const searchParams = ref({
+  name: '',
+  pagesize: 20,
 })
 const paginationInfo = ref({
   totalnum: 973,
   totalpage: 98,
-  currentPage: 1
+  currentPage: 1,
 })
 const srcPrefix = "https://faculty.cqu.edu.cn"
 
 function getTeachersList() {
+  ElMessage.warning('加载中...')
   const config = {
     headers: {'Authorization': localStorage.getItem('cqu-jwt')}
   }
   axios.post('http://127.0.0.1:8080/teacher', {
     name: searchParams.value.name,
-  }, config).then(res => {
-  console.log(res)
-  })
+    pagesize: searchParams.value.pagesize,
+    pageindex: paginationInfo.value.currentPage
+  }, config)
+      .then(res => {
+        const newTeacherData = JSON.parse(res.data.data)//解析json数据
+
+        console.log(newTeacherData)
+        paginationInfo.value.totalnum = newTeacherData.totalnum
+        paginationInfo.value.totalpage = newTeacherData.totalpage
+        myTeacherData.value = newTeacherData.teacherData
+        ElMessage.success('消息加载成功！')
+      })
+}
+
+function handleCommand(command) {
+  switch (command) {
+    case '10': {
+      searchParams.value.pagesize = 10
+      getTeachersList()
+      break
+    }
+    case '20': {
+      searchParams.value.pagesize = 20
+      getTeachersList()
+      break
+    }
+    case '50': {
+      searchParams.value.pagesize = 50
+      getTeachersList()
+      break
+    }
+    case '100': {
+      searchParams.value.pagesize = 100
+      getTeachersList()
+      break
+    }
+  }
+
 }
 
 
-function changePage() {
-
-}
-
-onBeforeMount(()=>{
+function changePage(currentPage) {
+  paginationInfo.value.currentPage = currentPage
   getTeachersList()
+}
+
+onBeforeMount(() => {
+  getTeachersList()
+
 })
 </script>
 
 <template>
-  <Header title="重庆大学教师信息查询中心"/>
+
   <div class="main">
+    <Header title="重庆大学教师信息查询中心" style="width: 100%"/>
     <Section class="search-section">
       <div class="input-div">
-          <h3>教师名称：</h3>
-          <el-input v-model="searchParams.name" size="large"
-                    clearable placeholder="姓名" autosize style="width: 200px"/>
-        </div>
+        <h3>教师名称：</h3>
+        <el-input v-model="searchParams.name" size="large"
+                  clearable placeholder="姓名" autosize style="width: 200px"/>
+      </div>
       <div class="select-div">
-          <el-button type="primary" size="large" @click="getTeachersList">
-            <el-icon size="20">
-              <Search/>
+        <el-dropdown @command="handleCommand">
+          <el-button type="primary" plain size="large" style="font-size: 20px">{{ searchParams.pagesize }}条/页
+            <el-icon size="large">
+              <arrow-down/>
             </el-icon>
-            <h2>搜索</h2>
           </el-button>
-        </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="10">10条/页</el-dropdown-item>
+              <el-dropdown-item command="20">20条/页</el-dropdown-item>
+              <el-dropdown-item command="50">50条/页</el-dropdown-item>
+              <el-dropdown-item command="100">100条/页</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+        <el-button type="primary" size="large" @click="getTeachersList">
+          <el-icon size="20">
+            <Search/>
+          </el-icon>
+          <h2>搜索</h2>
+        </el-button>
+      </div>
     </Section>
     <Section class="info-section">
 
-      <template v-for="teacherInfo in teacherData" class="card-template">
+      <template v-for="teacherInfo in myTeacherData" class="card-template">
         <el-card class="card">
           <a :href="teacherInfo.url">
             <img class="avatar-img" :src="srcPrefix+teacherInfo.picUrl" alt="教师照片">
@@ -349,7 +406,7 @@ onBeforeMount(()=>{
         <Section class="pagination">
           <el-pagination
               v-model:current-page="paginationInfo.currentPage"
-              :page-size="10"
+              :page-size="searchParams.pagesize"
               :size="'large'"
               :background="true"
               layout="total, prev, pager, next, jumper"
@@ -364,8 +421,6 @@ onBeforeMount(()=>{
 
 <style scoped>
 .main {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -379,18 +434,19 @@ onBeforeMount(()=>{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 5px;
 }
 
 .info-section {
   width: 100%;
-  height: fit-content;
   margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   padding: 15px;
+  max-height: 1000px;
+  overflow: auto;
 }
 
 .card-template {
@@ -404,7 +460,7 @@ onBeforeMount(()=>{
 .card {
   padding: 10px;
   margin: 15px;
-  width: 20%;
+  width: 18%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -457,5 +513,6 @@ onBeforeMount(()=>{
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 }
 </style>

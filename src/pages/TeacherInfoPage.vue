@@ -6,7 +6,7 @@ import {onBeforeMount, ref} from "vue";
 import axios from "axios";
 import {ArrowDown, Search} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
-
+import "animate.css"
 const myTeacherData = ref([
   {
     "uid": 13432,
@@ -335,7 +335,6 @@ function handleCommand(command) {
       break
     }
   }
-
 }
 
 
@@ -388,7 +387,7 @@ onBeforeMount(() => {
     <Section class="info-section">
 
       <template v-for="teacherInfo in myTeacherData" class="card-template">
-        <el-card class="card">
+        <el-card class="card animate__animated animate__fadeInUp">
           <a :href="teacherInfo.url">
             <img class="avatar-img" :src="srcPrefix+teacherInfo.picUrl" alt="教师照片">
           </a>

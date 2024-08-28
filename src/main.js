@@ -10,7 +10,7 @@ import LoginPage from "@/pages/LoginPage.vue";
 import TeacherMenu from "@/pages/TeacherMenu.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import FindPwdPage from "@/pages/FindPwdPage.vue";
-import CQU_student from "@/students/CQU_student.vue";
+import CQU_student from "@/pages/StudentMenuPage.vue";
 import PersonalMsg from "@/students/StuChildren/PersonalMsg/PersonalMsg.vue";
 import MsgQuery from "@/students/StuChildren/MsgQuery/MsgQuery.vue";
 import CourseQuery from "@/students/StuChildren/CourseQuery/CourseQuery.vue";
@@ -43,6 +43,7 @@ const routes = [
             {path:'studentInfo',component: StudentInfoPage},
             {path:'SearchCourse',component: SearchCoursePage},
             {path:'searchTeacherInfo',component: TeacherInfoPage},
+            {path:'consult',component: Consult},
             {
                 path: 'Accommodate',//转到宿舍页面
                 children: [

@@ -1,7 +1,7 @@
 <script setup>
 import Section from "@/components/UtilsComponnet/Section.vue";
 import {onBeforeMount, ref} from "vue";
-import {Check, Edit, Key, Location, Phone, School, User} from "@element-plus/icons-vue";
+import {Check, Edit, Key, Location, Phone, School, UploadFilled, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus"
 import {useRouter} from "vue-router";
 import axios from "axios";
@@ -21,8 +21,8 @@ const formData = ref({
   phoneNumber: "",  //电话号码
   email: "",        //邮箱，自动传入，不应该修改
   stuPassword: "",  //账号的密码
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQ4MjYwMTcsInVzZXJfbmFtZSI6IjMwMDQzNjQ3IiwiYXV0aG9yaXRpZXMiOlsi5a2m55SfJktSX1RUIl0sImp0aSI6IjZhZWQ5NjZiLWUwZjItNDFkNS04MDQ0LWM0ZTMzMTIwNTc0ZCIsImNsaWVudF9pZCI6InBlcnNvbmFsLXByb2QiLCJzY29wZSI6WyJhbGwiXX0.o7kmz1V_p64yfUYd-hTRS_nHoQiUiuL1HIj4qqBxfyI" ,        //学校方面的token
-  imgString:''       //图片
+  token: "",        //学校方面的token
+  imgString: ''       //图片
 })
 
 const formRef = ref(null)//保存用户存入的数据
@@ -58,16 +58,16 @@ const rules = {
     required: true,
     message: '请输入班级',
     trigger: 'blur'
-  },{
-    type:'string',
+  }, {
+    type: 'string',
     pattern: /^[0-9]+$/,
     message: '只允许输入数字'
   }],
-  id:[{
+  id: [{
     required: true,
     message: '请输入身份证号',
     trigger: 'blur'
-  },{
+  }, {
     type: 'string',
     pattern: /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
     message: '请输入正确的身份证号格式！'
@@ -113,9 +113,11 @@ function submitForm() {
       console.log(formData.value)
 
 
-      axios.post('http://127.0.0.1:8080/accountCompletion', formData.value,{headers:{
-        "Authorization":localStorage.getItem('cqu-jwt')
-        }}).then((response) => {
+      axios.post('http://127.0.0.1:8080/accountCompletion', formData.value, {
+        headers: {
+          "Authorization": localStorage.getItem('cqu-jwt')
+        }
+      }).then((response) => {
         console.log(response)
         if (response.data?.msg === 'success') {
           ElMessage.success('修改成功！')
@@ -152,41 +154,48 @@ function setup() {
     return Promise.reject('上传图片失败：' + msg)
   })
 }
-  /**
-   * 上传图片
-   * @param {File} file 图片文件
-   * @param {RefImpl} progress 上传进度
-   * @returns promise
-   */
-  function uploadImage(file, progress) {
-    let formData = new FormData();
-    formData.append("file", file)
-    return service({
-      url: "/upload",
-      method: "post",
-      data: formData,
-      onUploadProgress(event) {
-        let v = Math.round(event.loaded / event.total * 100)
-        progress.value = v == 100 ? 80 : v
-      },
 
-    })
-  }
-
-
-
-  onBeforeMount(() => {
-    const myConfig = {
-      headers: {
-        'Authorization': localStorage.getItem('cqu-jwt')
-      }
+function uploadImage(file, progress) {
+  console.log(file, progress)
+  const binaryData = file.raw   //二进制数据
+  if (binaryData) {
+        fileToBase64(binaryData).then(base64 => {
+            console.log(base64); // 输出 Base64 编码字符串
+            ElMessage.success('图片上传成功！')
+            formData.value.imgString=base64
+        }).catch(error => {
+            console.error("文件转换出错：", error);
+        });
     }
-    axios.get('http://127.0.0.1:8080/queryAccount', myConfig).then(res => {
-      console.log(res.data.data)
-      formData.value = res.data.data
-    })
-  })
+}
 
+//图片转base64
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      // `result` 是包含文件内容的 Base64 编码字符串
+      resolve(reader.result);
+    };
+    reader.onerror = (error) => {
+      reject(error);
+    };
+    // 读取文件为 Data URL（Base64 编码）
+    reader.readAsDataURL(file);
+  });
+}
+
+onBeforeMount(() => {
+  const myConfig = {
+    headers: {
+      'Authorization': localStorage.getItem('cqu-jwt')
+    }
+  }
+  axios.get('http://127.0.0.1:8080/queryAccount', myConfig).then(res => {//查询账户信息
+    console.log(res.data.data)
+    formData.value = res.data.data
+  })
+})
 
 
 </script>
@@ -204,20 +213,35 @@ function setup() {
             <el-form :model="formData" ref="formRef" :rules="rules"
                      status-icon label-width="auto">
               <el-form-item label="请上传图片" prop="imgString">
-
-                <upload-comp/>
+                <el-upload
+                    class="upload-demo"
+                    drag
+                    action="none"
+                    :on-change="uploadImage"
+                >
+                  <el-icon class="el-icon--upload">
+                    <upload-filled/>
+                  </el-icon>
+                  <div class="el-upload__text">
+                    拖拽照片到这里 <em>点击手动上传</em>
+                  </div>
+                  <template #tip>
+                    <div class="el-upload__tip">
+                    </div>
+                  </template>
+                </el-upload>
               </el-form-item>
               <el-form-item label="请输入姓名" prop="name">
-                <el-input v-model="formData.name" placeholder="姓名" >
+                <el-input v-model="formData.name" placeholder="姓名">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <User/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
 
-              <el-form-item label="请输入学号"  prop="stuId">
+              <el-form-item label="请输入学号" prop="stuId">
                 <el-input v-model="formData.stuId" placeholder="学号">
                   <template #prefix>
                     <el-icon size="large">
@@ -226,56 +250,56 @@ function setup() {
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入学院"  prop="department">
-                <el-input v-model="formData.department" placeholder="学院" >
+              <el-form-item label="请输入学院" prop="department">
+                <el-input v-model="formData.department" placeholder="学院">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <School/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入专业"  prop="major">
-                <el-input v-model="formData.major" placeholder="专业" >
+              <el-form-item label="请输入专业" prop="major">
+                <el-input v-model="formData.major" placeholder="专业">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <img src="../assets/icons/school_24dp_5F6368_FILL0_wght200_GRAD-25_opsz40.svg" alt=""/>
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="请输入班级"  prop="classes">
-                <el-input v-model="formData.classes" placeholder="班级" >
+              <el-form-item label="请输入班级" prop="classes">
+                <el-input v-model="formData.classes" placeholder="班级">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <img src="../assets/icons/stacks_24dp_A7A9B0_FILL0_wght200_GRAD-25_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
 
-              <el-form-item label="请输入身份证号"  prop="id">
+              <el-form-item label="请输入身份证号" prop="id">
                 <el-input v-model="formData.id" placeholder="身份证号" show-password>
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <img src="../assets/icons/fingerprint_24dp_A7A9B0_FILL0_wght200_GRAD-25_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入民族" prop="nation">
-                <el-input v-model="formData.nation" placeholder="民族" >
+                <el-input v-model="formData.nation" placeholder="民族">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <img src="../assets/icons/diversity_1_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
               <el-form-item label="请输入家庭住址" prop="address">
-                <el-input v-model="formData.address" placeholder="家庭住址" >
+                <el-input v-model="formData.address" placeholder="家庭住址">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <Location/>
                     </el-icon>
                   </template>
@@ -284,7 +308,7 @@ function setup() {
               <el-form-item label="请输入电话号码" prop="phoneNumber">
                 <el-input v-model="formData.phoneNumber" placeholder="电话号码" show-password>
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <Phone/>
                     </el-icon>
                   </template>
@@ -293,16 +317,16 @@ function setup() {
               <el-form-item label="请输入邮箱" prop="email">
                 <el-input v-model="formData.email" placeholder="邮箱">
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <img src="../assets/icons/mail_24dp_A7A9B0_FILL0_wght200_GRAD0_opsz24.svg" alt="">
                     </el-icon>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="修改密码"  prop="stuPassword">
+              <el-form-item label="修改密码" prop="stuPassword">
                 <el-input v-model="formData.stuPassword" placeholder="新密码" show-password>
                   <template #prefix>
-                    <el-icon >
+                    <el-icon>
                       <Key/>
                     </el-icon>
                   </template>
@@ -391,8 +415,32 @@ function setup() {
   align-content: center;
 }
 
+
 * {
   margin: 2px;
   box-sizing: border-box;
+}
+</style>
+
+<style>
+.el-upload__text {
+  font-size: 20px;
+}
+
+.el-icon--upload {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.el-upload-dragger {
+  width: 100%;
+  height: 10px;
+}
+
+.el-form-item__content {
+  display: flex;
+  justify-content: center;
 }
 </style>

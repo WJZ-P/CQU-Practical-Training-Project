@@ -331,7 +331,7 @@ async function getOfficialCourseInfo(jwt) {
   justify-content: start;
   height: 550px;
   flex-direction: column;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .show-selected-section {
